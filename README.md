@@ -1,3 +1,1 @@
-# Idle project
-# idle-project
-kakak
+# Crypto critx
