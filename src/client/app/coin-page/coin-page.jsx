@@ -44,7 +44,7 @@ export class CoinPage extends React.Component {
                         <div>{theme ? theme.dark ? 'dark':'light' :'light'}</div>
                         <div className='coin-head flex-row'>
                             <div className='item name text-center'>
-                                BLOCK SHARE
+                                CRYPTO CRITIX
                             </div>
 
                             <div className='item search'>

@@ -12,9 +12,7 @@ module.exports=(app)=>{
             Vote.findOne({coinId : id , userIp : ip },(err ,item)=>{
                 if(item){
                     Vote.findOneAndDelete({coinId :id },(err,doc)=>{
-                        console.log(doc)
                         VoteStat.findOneAndUpdate({ coinId : id },{$inc:{ count : -1}},{upsert:true},(err, doc)=>{
-                            console.log(doc)
                             return res.status(200).send({error :false});
 
                         })
@@ -26,12 +24,9 @@ module.exports=(app)=>{
                     })
 
                     v.save(err =>{
-                        console.log(err)
                         VoteStat.findOneAndUpdate({ coinId : id },{$inc:{ count : 1}},{returnOriginal: false,upsert:true},(err, doc)=>{
-                            console.log(doc)
                             return res.status(200).send({error :false});
                         })
-                        // return res.status(200).end();
                     })
                 }
             })
