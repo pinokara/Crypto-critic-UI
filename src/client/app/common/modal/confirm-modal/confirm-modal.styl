@@ -1,0 +1,60 @@
+.confirm-modal {
+  margin auto
+  width 300px
+
+  background-color white
+  border 1px solid grey
+  border-radius 4px
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align center
+  & .m-header{
+
+    padding 5px 4px
+    border-bottom 1px solid grey
+    color primary
+    font-size sm + 0.3rem
+    font-weight bold
+  }
+  & .m-body{
+    text-align center
+    padding-top 10px
+    color #443d3d
+    font-size sm
+  }
+  & .m-footer{
+    border none
+
+    & > div{
+      margin 0 !important
+      &.btn-confirm{
+        & button{
+          color primary
+          background-color white
+          padding 6px 15px
+          transition all 0.2s ease
+          font-size sm - 0.2rem
+          border 1px solid primary
+          &:hover{
+            color white
+            background-color primary
+          }
+        }
+      }
+      &.btn-reject{
+        & button{
+          color danger
+          padding 7px 15px
+          transition all 0.2s ease
+          background-color white
+          font-size sm - 0.2rem
+          border 1px solid danger
+          &:hover{
+            color white
+            background-color danger
+          }
+        }
+      }
+    }
+    padding 10px 0
+  }
+}
