@@ -9,5 +9,6 @@ const listApi={
 
 export  const cryptoApi={
     getCoin:(id)=> api.get(listApi.getCoinURI(id)),
-    getChart:(id, day) => api.get(listApi.getChartURI(id, day))
+    getChart:(id, day) => api.get(listApi.getChartURI(id, day)),
+    getMarket:()=> api.get('/api/market')
 }

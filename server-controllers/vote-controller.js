@@ -15,7 +15,7 @@ module.exports=(app)=>{
                         console.log(doc)
                         VoteStat.findOneAndUpdate({ coinId : id },{$inc:{ count : -1}},{upsert:true},(err, doc)=>{
                             console.log(doc)
-                            return res.status(200).end();
+                            return res.status(200).send({error :false});
 
                         })
                     })
@@ -29,16 +29,31 @@ module.exports=(app)=>{
                         console.log(err)
                         VoteStat.findOneAndUpdate({ coinId : id },{$inc:{ count : 1}},{returnOriginal: false,upsert:true},(err, doc)=>{
                             console.log(doc)
+                            return res.status(200).send({error :false});
                         })
                         // return res.status(200).end();
                     })
                 }
             })
         }catch(e){
-            return res.status(200).end();
+            return res.status(200).send({error :true});
             console.log("errrrorr")
         }
+    })
 
+    app.get('/get/votes',(req,res)=>{
+
+        try{
+            VoteStat.find({},{_id :0, coinId :1, count :1},(err,stats)=>{
+                let ooo ={};
+                stats.map(o =>{
+                    ooo[o.coinId] ={ ...o._doc}
+                })
+                return res.status(200).send(ooo) ;
+            })
+        }catch(e){
+            return res.status(200).send([]) ;
+        }
 
     })
 }

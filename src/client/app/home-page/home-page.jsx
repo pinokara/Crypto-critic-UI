@@ -8,18 +8,27 @@ import {Link} from "react-router-dom";
 import {languages} from '../mutil-languages'
 import {countryServices} from "../services/country-info";
 import {voteApi} from "../../api/vote-api/vote-api";
+import {cryptoApi} from "../../api/crypto-api/crypto-api";
 export class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: null
+            list: null,
+            votes:null
         };
-
-        api.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=true&price_change_percentage=1h,24h,7d')
-            .then(data => this.setState({list: data}))
+        this.loadData();
 
     };
-
+    loadData(){
+        cryptoApi.getMarket().then(data =>{
+            this.setState({list: data})
+        })
+        voteApi.getVotes().then(data=>{
+            this.setState({
+                votes: data
+            })
+        })
+    }
     formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -28,9 +37,11 @@ export class HomePage extends React.Component {
     isNegativeNum = (num) => num < 0 ? "down" : 'up'
     handleVote(id=null){
         console.log(id)
-        voteApi.voteCoin(id);
+        voteApi.voteCoin(id).then(data =>{
+            if(!data.error) this.loadData()
+        })
     }
-    convertColumns=(country={})=>{
+    convertColumns=(country={}, votes={})=>{
         return [
             {
                 label :'Vote',
@@ -43,7 +54,7 @@ export class HomePage extends React.Component {
                         }}
                     >
                         <i className="fas fa-thumbs-up"></i>
-                        2000
+                        {votes[item.id] ? votes[item.id].count : '...'}
                     </div>
             },
             {
@@ -131,7 +142,8 @@ export class HomePage extends React.Component {
     }
 
     render() {
-        const {list} = this.state;
+        const {list, votes} = this.state;
+        console.log(votes)
         let country = countryServices.getCountry() || {code :'us', flag:'en.svg' ,name:'United State'} ;
         console.log(country)
         return (
@@ -140,9 +152,9 @@ export class HomePage extends React.Component {
                 mainChild={()=>
                     <div className='home-page'>
                     {
-                        !list ? <LoadingPanel/> :
+                        (!list || !votes )? <LoadingPanel/> :
                             <PaginationTable
-                                colums={this.convertColumns(country)}
+                                colums={this.convertColumns(country ,votes)}
                                 list={list}
                             />
                     }
