@@ -9,10 +9,10 @@ export class HighChartLine extends React.Component{
         };
     };
     componentDidMount(){
-        const {setNames=[],coinId=null} =this.props ;
+        const {datas=[] ,setNames=[],coinId=null} =this.props ;
         var seriesOptions = [],
             seriesCounter = 0,
-            names = ['MSFT', 'AAPL', 'GOOG'];
+            names = setNames;
 
         /**
          * Create the chart when all data is loaded
@@ -58,11 +58,11 @@ export class HighChartLine extends React.Component{
 
         $.each(names, function (i, name) {
 
-            cryptoApi.getChart(coinId, 'max').then(({prices}) => {
-                console.log(prices);
+            // cryptoApi.getChart(coinId, 'max').then(({prices}) => {
+            //     console.log(prices);
                 seriesOptions[i] = {
                     name: name,
-                    data: prices
+                    data: datas[i]
                 };
                 // As we're loading the data asynchronously, we don't know what order it will arrive. So
                 // we keep a counter and create the chart when all the data is loaded.
@@ -71,7 +71,7 @@ export class HighChartLine extends React.Component{
                 if (seriesCounter === names.length) {
                     createChart();
                 }
-            })
+            // })
         });
     }
     render(){

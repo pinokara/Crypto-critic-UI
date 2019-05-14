@@ -22,7 +22,7 @@ export class CoinPage extends React.Component {
             console.log(data)
             this.setState({coin: data})
         })
-        cryptoApi.getChart(this.id, 1).then(data => {
+        cryptoApi.getChart(this.id, 'max').then(data => {
             console.log(data);
             this.setState({sparkline: data})
         })
@@ -114,9 +114,10 @@ export class CoinPage extends React.Component {
                                     (!coin || !sparkline) ? <LoadingPanel/> :
                                         <Fragment>
                                             <IncomeSec/>
-                                            <LineChart
-                                                name={coin.name}
-                                                sparkline={sparkline}
+                                            <HighChartLine
+                                                coinId={this.id}
+                                                datas={[sparkline.prices]}
+                                                setNames={[this.id]}
                                             />
                                         </Fragment>
                                 }
@@ -127,9 +128,9 @@ export class CoinPage extends React.Component {
                         </div>
 
 
-                        <HighChartLine
-                            coinId={this.id}
-                        />
+
+
+
 
 
                     </div>
