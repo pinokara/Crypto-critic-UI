@@ -9,4 +9,12 @@ module.exports=(app)=>{
             return res.send(JSON.parse(body))
         });
     })
+
+    app.get('/clone/:id',(req,res)=>{
+        // https://www.highcharts.com/samples/data/' + name.toLowerCase() + '-c.json
+        request(`https://www.highcharts.com/samples/data/${req.params.id}-c.json` ,(err, resp, body)=>{
+            if(!body) return res.send(null)
+            return res.send(JSON.parse(body))
+        })
+    })
 }

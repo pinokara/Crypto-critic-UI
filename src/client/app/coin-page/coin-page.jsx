@@ -7,7 +7,8 @@ import {LineChart} from "../component/line-chart/line-chart";
 import {LoadingPanel} from "../common/loading/loading-panel/loading-panel";
 import {countryServices} from "../services/country-info";
 import {themeServices} from "../services/theme-info";
-
+import {api} from "../../api/api";
+import {HighChartLine} from "../component/high-chart-line/high-chart-line";
 export class CoinPage extends React.Component {
     constructor(props) {
         super(props);
@@ -15,18 +16,22 @@ export class CoinPage extends React.Component {
             coin: null,
             sparkline: null
         };
-        let id = this.props.match.params.id;
+        this.id = this.props.match.params.id;
 
-        cryptoApi.getCoin(id).then(data => {
+        cryptoApi.getCoin(this.id).then(data => {
             console.log(data)
             this.setState({coin: data})
         })
-        cryptoApi.getChart(id, 1).then(data => {
+        cryptoApi.getChart(this.id, 1).then(data => {
             console.log(data);
             this.setState({sparkline: data})
         })
     };
 
+
+    componentDidMount(){
+
+    }
     render() {
         const {match} = this.props;
         let country = countryServices.getCountry();
@@ -118,7 +123,14 @@ export class CoinPage extends React.Component {
 
                             </div>
 
+
                         </div>
+
+
+                        <HighChartLine
+                            coinId={this.id}
+                        />
+
 
                     </div>
                 }

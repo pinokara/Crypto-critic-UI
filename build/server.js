@@ -1,6 +1,9 @@
 var express = require("express");
 var app = express();
 var compression = require('compression')
+var cors = require('cors')
+app.use(cors())
+
 app.use(compression())
 const path = require("path");
 const bodyParser = require("body-parser");
