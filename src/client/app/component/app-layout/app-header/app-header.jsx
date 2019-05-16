@@ -23,18 +23,6 @@ export class AppHeader extends React.Component{
             }
         ]
         let theme = themeServices.getTheme();
-        // if(theme && theme.dark ==true){
-        //     let arr = ['body','div', 'button','h1','h3','h2','h4','h5','tr','td','thead','tbody','ul','li','section']
-        //     for(let i=0 ; i<  arr.length ;i++){
-        //         var j,
-        //             tags = document.getElementsByTagName("body")[0].getElementsByTagName(arr[i]),
-        //             total = tags.length;
-        //         for ( j = 0; j < total; j++ ) {
-        //             tags[j].style.background = '#292a36';
-        //             tags[j].style.color = 'white'
-        //         }
-        //     }
-        // }
         return(
             <div className='app-header'>
                 <div className='main-header child-cover flex-row'>

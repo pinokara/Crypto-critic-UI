@@ -68,7 +68,7 @@ export class CoinPage extends React.Component {
                                     !coin ? <LoadingPanel/>:
                                     <Fragment>
                                         <div className='image-wrap'>
-                                            <img width='180px' height='180px' src={coin.image.large} alt={coin.name}/>
+                                            <img width='180px' height='180px' src={`/coins/${coin.id}.png`} alt={coin.name}/>
                                         </div>
                                         <div className='text-center'>
                                             {coin.name}

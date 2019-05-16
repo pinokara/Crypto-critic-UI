@@ -67,7 +67,7 @@ export class HomePage extends React.Component {
                         >
 
                             <div className='img-cover'>
-                                <img src={item.image} width='25px' alt=""/>
+                                <img src={`/coins/${item.id}.png`} width='25px' alt=""/>
                             </div>
                             <div className='info'>
                                 <b>{item.name}</b>
