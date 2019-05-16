@@ -8,9 +8,13 @@ export class SearchArea extends React.Component {
             display: false
         }
     }
+    filterBySearch(list ,val){
+        return  list.filter((o,index) => o.name.toLowerCase().includes(val.toLowerCase()) || o.symbol.toLowerCase().includes(val.toLowerCase()) )
+    }
 
     render() {
-        const {display, value,renItem} = this.state;
+        const {display, value} = this.state;
+        const {renItem=null, list=null} = this.props;
         return (
             <div className='search-area'>
                 <input type="text"
@@ -25,7 +29,11 @@ export class SearchArea extends React.Component {
                 {
                     value.length>0 && (
                         <div className='dropdown-content'>
-                            hahah
+                            {
+                                list && this.filterBySearch(list,value).map((o,i) =>{
+                                    return renItem(o,i)
+                                })
+                            }
                         </div>
                     )
                 }
