@@ -1,6 +1,6 @@
 .app-header {
     //margin-top 50px;
-    height 30px;
+    height 50px;
     position relative;
     //&::before {
     //    content: "";
@@ -14,13 +14,33 @@
     //    background #cecece
     //}
     .main-header {
-        justify-content flex-end
+        justify-content flex-start
         border 1px dashed #e3e3e3
         font-size 14px;
+
+        .search-area {
+            float right
+            margin-left 20px !important
+
+            .search-item {
+                margin 5px 0;
+                &:hover {
+                    background #0cabf8
+                    color white !important
+                }
+                img {
+                    margin 0 10px
+                }
+            }
+        }
+        .right-head {
+            flex 1;
+            justify-content flex-end
+        }
         .head-item {
             display inline-block;
-            height 30px;
-            line-height 30px;
+            height 50px;
+            line-height 50px;
             margin-left 10px;
             i {
                 margin-left 5px;
@@ -30,7 +50,7 @@
 
     .select-country {
         position relative;
-        .country-img{
+        .country-img {
             margin-left 5px;
         }
         .content-dropdown {
@@ -43,7 +63,7 @@
             flex-wrap wrap
             position absolute;
             z-index 50;
-            top 30px;
+            top 50px;
             left 0;
             width 200px;
             img {

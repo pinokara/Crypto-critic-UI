@@ -14,18 +14,23 @@ export class HomePage extends React.Component {
         super(props);
         this.state = {
             list: null,
-            votes:null
+            votes:null,
+            voting:false
         };
-        this.loadData();
+        this.loadMarket();
+        this.loadVotes()
 
     };
-    loadData(){
+    loadMarket(){
         cryptoApi.getMarket().then(data =>{
             this.setState({list: data})
         })
+    }
+    loadVotes(st={}){
         voteApi.getVotes().then(data=>{
             this.setState({
-                votes: data
+                votes: data,
+                ...st
             })
         })
     }
@@ -36,12 +41,15 @@ export class HomePage extends React.Component {
     });
     isNegativeNum = (num) => num < 0 ? "down" : 'up'
     handleVote(id=null){
+        const {voting} =this.state;
+        this.setState({voting :true})
         console.log(id)
         voteApi.voteCoin(id).then(data =>{
-            if(!data.error) this.loadData()
+            if(!data.error) this.loadVotes({voting:false})
+            else this.setState({voting :false})
         })
     }
-    convertColumns=(country={}, votes={})=>{
+    convertColumns=(country={}, votes={}, voting=false)=>{
         return [
             {
                 label :'Vote',
@@ -50,7 +58,7 @@ export class HomePage extends React.Component {
                         className='cell vote'
                         onClick={()=>{
                             console.log(item)
-                            this.handleVote(item.id)
+                             !voting && this.handleVote(item.id)
                         }}
                     >
                         <i className="fas fa-thumbs-up"></i>
@@ -142,7 +150,7 @@ export class HomePage extends React.Component {
     }
 
     render() {
-        const {list, votes} = this.state;
+        const {list, votes, voting} = this.state;
         console.log(votes)
         let country = countryServices.getCountry() || {code :'us', flag:'en.svg' ,name:'United State'} ;
         console.log(country)
@@ -154,7 +162,7 @@ export class HomePage extends React.Component {
                     {
                         (!list || !votes )? <LoadingPanel/> :
                             <PaginationTable
-                                colums={this.convertColumns(country ,votes)}
+                                colums={this.convertColumns(country ,votes,voting)}
                                 list={list}
                             />
                     }

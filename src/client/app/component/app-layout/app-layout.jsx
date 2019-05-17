@@ -17,13 +17,7 @@ export class AppLayout extends React.Component {
             <div className='app-layout'>
                 <AppHeader/>
                 <div className='search-panel child-cover'>
-                    <SearchArea
-                        list={coinsList}
-                        renItem={(item, index) => <a key={index} href={`/coin/${item.id}`}><div  className='search-item flex-row'>
-                            <img width='25' height='25' src={`/coins/${item.id}.png`} alt=""/>
-                            <span>{item.name}</span>
-                        </div></a>}
-                    />
+
                 </div>
                 <div className='child-cover'>
                     {mainChild()}
