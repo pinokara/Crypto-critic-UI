@@ -4,6 +4,7 @@ import {countryServices} from "../../../services/country-info";
 import {themeServices} from "../../../services/theme-info";
 import {coinsList} from "../../../../../assets/cryto-data/coins-list";
 import {SearchArea} from "../search-area/search-area";
+import {Link} from "react-router-dom";
 export class AppHeader extends React.Component{
     constructor(props){
         super(props);
@@ -29,9 +30,9 @@ export class AppHeader extends React.Component{
             <div className='app-header'>
 
                 <div className='main-header child-cover flex-row'>
-                    <a href="#">
-                        <img height='50px' width='50px' src="/coins/bitcoin.png" alt=""/>
-                    </a>
+                    <Link to="/">
+                        <img className='logo' height='40px' width='40px' src="/assets/img/logo.png" alt=""/>
+                    </Link>
                     <SearchArea
                         list={coinsList}
                         renItem={(item, index) => <a key={index} href={`/coin/${item.id}`}><div  className='search-item flex-row'>

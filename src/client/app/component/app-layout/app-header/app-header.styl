@@ -1,7 +1,12 @@
 .app-header {
     //margin-top 50px;
     height 50px;
-    position relative;
+    position fixed;
+    z-index 1000;
+    top:0 ;
+    left 50%;
+    transform translate(-50%,0)
+    background white
     //&::before {
     //    content: "";
     //    position: absolute;
@@ -17,7 +22,9 @@
         justify-content flex-start
         border 1px dashed #e3e3e3
         font-size 14px;
-
+        .logo{
+            margin 5px;
+        }
         .search-area {
             float right
             margin-left 20px !important
@@ -75,6 +82,17 @@
             .content-dropdown {
                 display block;
             }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .main-header {
+        display flex !important
+        flex-direction column  !important;
+        .search-area {
+            float right
+            margin 0 !important
         }
     }
 }

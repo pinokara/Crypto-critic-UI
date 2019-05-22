@@ -16,9 +16,6 @@ export class AppLayout extends React.Component {
         return (
             <div className='app-layout'>
                 <AppHeader/>
-                <div className='search-panel child-cover'>
-
-                </div>
                 <div className='child-cover'>
                     {mainChild()}
                 </div>

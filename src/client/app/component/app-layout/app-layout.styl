@@ -1,17 +1,21 @@
 .app-layout{
     width 100%;
-
-
+    padding-top: 100px;
     .child-cover{
         width 1200px;
-        min-height 30px;
         margin 0 auto;
     }
     .main-background{
         background white;
     }
 }
-
+@media only screen and (max-width: 1200px){
+    .app-layout{
+        .child-cover{
+            width 100%;
+        }
+    }
+}
 
 //div, button,h1,h3,h2,h4,h5,tr,td,thead,tbody,ul,li,section{
 //    background #292a36 !important;

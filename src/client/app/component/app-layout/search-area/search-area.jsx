@@ -11,6 +11,9 @@ export class SearchArea extends React.Component {
     filterBySearch(list ,val){
         return  list.filter((o,index) => o.name.toLowerCase().includes(val.toLowerCase()) || o.symbol.toLowerCase().includes(val.toLowerCase()) )
     }
+    handleClear(){
+        this.setState({value : ''})
+    }
 
     render() {
         const {display, value} = this.state;
@@ -25,6 +28,13 @@ export class SearchArea extends React.Component {
                        // onFocus={() => this.setState({display: true})}
                        // onBlur={() => this.setState({display: false})}
                        className='input-search'/>
+
+                {
+                    value.length >0 &&  <i
+                        onClick={()=> this.handleClear()}
+                        className='fas fa-times'></i>
+                }
+                <i className="fas fa-search"></i>
 
                 {
                     value.length>0 && (

@@ -46,9 +46,9 @@ export class CoinPage extends React.Component {
                         className='coin-page'
                     >
                         <div className='coin-head flex-row'>
-                            <div className='item name text-center'>
-                                CRYPTO CRITIX
-                            </div>
+                            {/*<div className='item name text-center'>*/}
+                                {/*CRYPTO CRITIX*/}
+                            {/*</div>*/}
                         </div>
                         <div className='coin-main flex-row'>
 
@@ -150,16 +150,45 @@ class IncomeSec extends React.Component {
     render() {
         let cards = [
             {
-                label: '1'
+                content: <Fragment>
+                    <span><b>Annual ROI: </b> 3000%</span>
+                    <span><b>Paid Rewards: </b> 1 BLS</span>
+                    <span><b>Reward Frequency: </b>2h24m</span>
+                    <span><b>Active Nodes: </b> 100 </span>
+                </Fragment>
             },
             {
-                label: '1'
+                background :'#0CABF8',
+                color :'white',
+                content: <Fragment>
+                    <div className='daily text-center flex-column'>
+                        <span>DAILY INCOME</span>
+                        <span className='big-price'>$68.123</span>
+                        <span>0.01 BTC (10 BLS)</span>
+                    </div>
+                </Fragment>
             },
             {
-                label: '1'
+                background:'#346EF8',
+                color :'white',
+                content: <Fragment>
+                    <div className='weekly text-center flex-column'>
+                        <span>WEEKLY INCOME</span>
+                        <span className='big-price'>$68.123</span>
+                        <span>0.07 BTC (70 BLS)</span>
+                    </div>
+                </Fragment>
             },
             {
-                label: '1'
+                background:'#1d3759',
+                color :'white',
+                content: <Fragment>
+                    <div className='monthly text-center flex-column'>
+                        <span>MONTHLY INCOME</span>
+                        <span className='big-price'>$2020.23</span>
+                        <span>0.3 BTC (300 BLS)</span>
+                    </div>
+                </Fragment>
             }
         ]
 
@@ -168,8 +197,8 @@ class IncomeSec extends React.Component {
                 {
 
                     cards.map((o, i) =>
-                        <div key={i} className='income-card main-background'>
-                            {o.label}
+                        <div style={{background: o.background, color :o.color}} key={i} className='income-card main-background flex-column'>
+                            {o.content}
                         </div>
                     )
                 }

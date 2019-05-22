@@ -9,6 +9,7 @@ import {languages} from '../mutil-languages'
 import {countryServices} from "../services/country-info";
 import {voteApi} from "../../api/vote-api/vote-api";
 import {cryptoApi} from "../../api/crypto-api/crypto-api";
+import {SwitchTabs} from "../component/switch-tabs/switch-tabs";
 export class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -154,21 +155,47 @@ export class HomePage extends React.Component {
         console.log(votes)
         let country = countryServices.getCountry() || {code :'us', flag:'en.svg' ,name:'United State'} ;
         console.log(country)
+
+        let tabs=[
+            {
+                label :'Master Node',
+                renComp :()=> <LoadingPanel/>
+            },
+            {
+                label :'All',
+                renComp:() => (!list || !votes )? <LoadingPanel/> :
+                    <PaginationTable
+                        colums={this.convertColumns(country ,votes,voting)}
+                        list={list}
+                    />
+            },
+            {
+                label :'IEO',
+                renComp:()=> <div className='ieo-tab text-center'>
+                    IEO
+                </div>
+            },
+            {
+                label :'New Project',
+                renComp:()=> <div className='new-project-tab text-center'>
+                    New Project
+                </div>
+            }
+        ]
         return (
             <AppLayout
                 props={{...this.props}}
                 mainChild={()=>
                     <div className='home-page'>
-                    {
-                        (!list || !votes )? <LoadingPanel/> :
-                            <PaginationTable
-                                colums={this.convertColumns(country ,votes,voting)}
-                                list={list}
-                            />
-                    }
+                    <SwitchTabs
+                        tabs={tabs}
+                        defaultTab={1}
+                    />
                     </div>
                 }
             />
         );
     }
 }
+
+

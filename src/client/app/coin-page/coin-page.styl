@@ -32,7 +32,7 @@
             margin 10px 20px;
             padding 10px;
             width 300px;
-            min-height 500px;
+            height: 420px;
             .image-wrap{
                 margin-top 20px;
                 img{
@@ -57,14 +57,50 @@
             margin 10px 20px;
             padding 10px;
             .income-sec{
+                margin-bottom 20px;
                 .income-card{
-                    display inline-block;
+                    display flex
+                    justify-content center;
+                    padding-left 10px;
+                    font-size 13px ;
+                    font-weight 400;
                     height: 100px;
                     width   200px;
                     border 1px solid #dadada
                     margin-right 10px;
                     border-radius 10px;
+                    .big-price{
+                        font-size 18px;
+                        font bolder
+                    }
                 }
+            }
+
+            @media only screen and (max-width: 850px){
+                .income-sec{
+                    width 100%;
+                    display flex ;
+                    flex-direction column !important;
+                    .income-card{
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .coin-page{
+        width 100%;
+        .coin-main{
+            width 100%;
+            display flex ;
+            flex-direction column !important
+            justify-content center
+            .coin-left{
+                margin: 0 auto;
+                text-align: center;
             }
         }
     }
