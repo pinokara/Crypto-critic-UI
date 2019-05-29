@@ -43,7 +43,7 @@ export class SelectOption extends React.Component {
                 }
 
                 <div style={{height: height}} className='select-area'>
-                    <div style={{height: height, lineHeight: height + "px"}} className='display-value'>
+                    <div style={{height: height-2, lineHeight: (height-2) + "px"}} className='display-value'>
                         {value && displayValueAs(value)}
                     </div>
 

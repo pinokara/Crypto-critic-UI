@@ -76,7 +76,7 @@ export class AppHeader extends React.Component{
                     <img async height='80px' src="/assets/img/main-logo.png" alt=""/>
                 </div>
 
-                <div className='txs-search-panel'>
+                <div className='txs-search-panel child-cover'>
                     <div className='txs-search'>
                         <input
                             placeholder='Search transactions, blocks, addresses, ENS...'
@@ -87,31 +87,29 @@ export class AppHeader extends React.Component{
                             className='txs-input' type="text"
                         />
 
-                        <div className='action-panel'>
-                            <SelectOption
-                                value={coinSelect}
-                                displayValueAs={(val)=> (
-                                    <div className='flex-row'>
-                                        <img async style={{marginTop : 6.5 , marginRight:5 }} height='15px' src={`/coins/${val.image}`} alt=""/>
-                                        <span>{val.name}</span>
-                                    </div>
-                                )}
-                                displayItemsAs={(val)=> (
-                                    <div style={{height:30}} className='flex-row'>
-                                        <img async style={{marginTop : 6.5 , marginRight:5 }} height='15px' src={`/coins/${val.image}`} alt=""/>
-                                        <div style={{lineHeight:30+'px'}}>{val.name}</div>
-                                    </div>
-                                )}
-                                onChange={(val) => this.setState({ coinSelect :val})}
-                                list={coinsList}
-                            />
-                            <button className='txs-search'>
-                                Search
-                            </button>
-                        </div>
-
                     </div>
-
+                    <div className='action-panel flex-row'>
+                        <SelectOption
+                            value={coinSelect}
+                            displayValueAs={(val)=> (
+                                <div className='flex-row'>
+                                    <img style={{marginTop : 6.5 , marginRight:5 }} height='15px' src={`/coins/${val.image}`} alt=""/>
+                                    <span>{val.name}</span>
+                                </div>
+                            )}
+                            displayItemsAs={(val)=> (
+                                <div style={{height:30}} className='flex-row'>
+                                    <img style={{marginTop : 6.5 , marginRight:5 }} height='15px' src={`/coins/${val.image}`} alt=""/>
+                                    <div style={{lineHeight:30+'px'}}>{val.name}</div>
+                                </div>
+                            )}
+                            onChange={(val) => this.setState({ coinSelect :val})}
+                            list={coinsList}
+                        />
+                        <button className='txs-search'>
+                            Search
+                        </button>
+                    </div>
                 </div>
             </div>
         );
