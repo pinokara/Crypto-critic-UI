@@ -59,7 +59,7 @@ export class CoinPage extends React.Component {
                                         <div className='image-wrap'>
                                             <img width='180px' height='180px' src={`/coins/${coin.id}.png`} alt={coin.name}/>
                                         </div>
-                                        <div className='text-center'>
+                                        <div className='name text-center'>
                                             {coin.name}
                                         </div>
                                         <div

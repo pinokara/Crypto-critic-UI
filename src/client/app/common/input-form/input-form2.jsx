@@ -2,25 +2,22 @@ import React from "react";
 export class InputForm2 extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-            val: this.props.defaultValue || "",
-        };
     };
     render(){
-        const {val} =this.state
-        const {label, onChange, type, placeholder} =this.props ;
+        const {label=null,value='',style={}, type='text',onChange, placeholder,...props} =this.props ;
         return(
             <div className="input-form2">
-                <span className="label">{label}</span>
+                {
+                    label &&  <span className="label">{label}</span>
+                }
                 <input
-                    type="text"
+                    type={type}
+                    style={style}
                     placeholder={placeholder}
-                    value={val}
+                    value={value}
+                    min='0'
                     onChange={(e)=> {
-                        onChange(type,e.target.value)
-                        this.setState({
-                            val : e.target.value
-                        })
+                        onChange(e.target.value)
                     }}
                 />
             </div>

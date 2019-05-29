@@ -7,6 +7,8 @@ import {CoinPage} from "./coin-page/coin-page";
 import {countryServices} from "./services/country-info";
 import {themeServices} from "./services/theme-info";
 import classnames from 'classnames'
+import {ExplorerPage} from "./explorer-page/explorer-page";
+import {BlockPage} from "./block-page/block-page";
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
         constructor(props, context) {
@@ -59,6 +61,8 @@ export class MainRoutes extends BaseComponent {
                     <Switch>
                         <Route  path="/" exact component={HomePage}/>
                         <Route  path="/coin/:id" exact component={CoinPage}/>
+                        <Route  path="/explorer/:id"  component={ExplorerPage}/>
+                        <Route  path="/block/:id"  component={BlockPage}/>
                         <Route exact render={()=><Redirect to="/" />}/>
 
                     </Switch>

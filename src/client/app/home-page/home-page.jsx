@@ -10,6 +10,8 @@ import {countryServices} from "../services/country-info";
 import {voteApi} from "../../api/vote-api/vote-api";
 import {cryptoApi} from "../../api/crypto-api/crypto-api";
 import {SwitchTabs} from "../component/switch-tabs/switch-tabs";
+import {SelectOption} from "../common/select-option/select-option";
+import {coinsList} from "../../../assets/cryto-data/coins-list";
 export class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -112,7 +114,7 @@ export class HomePage extends React.Component {
                 label: languages[country.code].coins_table[4],
                 renderCell: (item) => <div className='cell percent'><span
                     className={this.isNegativeNum(item.price_change_percentage_7d_in_currency)}>
-                {item.price_change_percentage_7d_in_currency.toFixed(1)}%</span></div>,
+                {item.price_change_percentage_7d_in_currency ? item.price_change_percentage_7d_in_currency.toFixed(1) : 'NAN'}%</span></div>,
                 classNames: 'mid'
             },
             {
@@ -152,9 +154,7 @@ export class HomePage extends React.Component {
 
     render() {
         const {list, votes, voting} = this.state;
-        console.log(votes)
         let country = countryServices.getCountry() || {code :'us', flag:'en.svg' ,name:'United State'} ;
-        console.log(country)
 
         let tabs=[
             {
@@ -165,6 +165,7 @@ export class HomePage extends React.Component {
                 label :'All',
                 renComp:() => (!list || !votes )? <LoadingPanel/> :
                     <PaginationTable
+                        perPage={10}
                         colums={this.convertColumns(country ,votes,voting)}
                         list={list}
                     />

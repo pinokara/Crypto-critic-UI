@@ -10,14 +10,14 @@ export class Pagination extends React.Component{
         return 10;
     }
     render(){
-        const {ranger,total, pageNum, onChangePage} = this.props;
-        var totalPage= Math.ceil(total/this.numPerPage()) ;
+        const {ranger,total, pageNum, onChangePage ,perPage} = this.props;
+        var totalPage= Math.ceil(total/perPage) ;
         return(
             <div className="footer-pg"
                  // style={{top : ranger}}
             >
                 <div className="sumary">
-                    <span>{total && ((pageNum-1)*this.numPerPage() +1) +" to "+ (total<this.numPerPage() * pageNum ? total: pageNum*this.numPerPage() ) +" of "+ total +" records shown" }</span>
+                    <span>{total && ((pageNum-1)*this.numPerPage() +1) +" to "+ (total<perPage * pageNum ? total: pageNum*perPage ) +" of "+ total +" records shown" }</span>
                 </div>
 
                 <div className="pagination">

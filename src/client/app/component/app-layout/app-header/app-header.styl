@@ -1,12 +1,12 @@
 .app-header {
     //margin-top 50px;
-    height 50px;
-    position fixed;
+    height 300px;
+    position relative;
     z-index 1000;
-    top:0 ;
-    left 50%;
-    transform translate(-50%,0)
-    background white
+    //top:0 ;
+    //left 50%;
+    //transform translate(-50%,0)
+    background #26ADE4
     //&::before {
     //    content: "";
     //    position: absolute;
@@ -20,8 +20,13 @@
     //}
     .main-header {
         justify-content flex-start
-        border 1px dashed #e3e3e3
         font-size 14px;
+        color: #ffffff
+        line-height 50px;
+        .about{
+            margin-left 40px;
+            color white
+        }
         .logo{
             margin 5px;
         }
@@ -55,6 +60,63 @@
         }
     }
 
+    .logo-main{
+        padding-top 60px;
+        width 100%;
+    }
+
+    .txs-search-panel{
+        position absolute ;
+        bottom 0;
+        left 50%
+        transform translate(-50% ,64%)
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .txs-search{
+            width 700px;
+            .txs-input{
+                //padding 20px 15px ;
+                //border-radius 10px ;
+                //border 1px solid #e3e3e3
+                outline none;
+                width 100%;
+                box-shadow: rgba(17, 51, 83, 0.02) 0px 4px 12px 0px;
+                margin-bottom: 32px;
+                padding: 20px 32px;
+                border-width: 1px;
+                border-style: solid;
+                border-color: rgb(236, 239, 241);
+                border-image: initial;
+                background: rgb(255, 255, 255);
+                border-radius: 4px;
+            }
+        }
+        .action-panel{
+            width 280px;
+            position absolute;
+            right: 0;
+            top 50% ;
+            transform translate(0, -100%)
+            .txs-search{
+                width 80px;
+                position absolute
+                left 190px;
+                background #1e47f8
+                border 1px solid #1d45ef
+                border-radius 5px;
+                color white;
+                top 50% ;
+                transform translate(0, -50%)
+            }
+            //.select-option{
+            //
+            //}
+        }
+
+    }
+
+
     .select-country {
         position relative;
         .country-img {
@@ -71,7 +133,7 @@
             position absolute;
             z-index 50;
             top 50px;
-            left 0;
+            right 0;
             width 200px;
             img {
                 padding 0 2px;
@@ -94,5 +156,13 @@
             float right
             margin 0 !important
         }
+        .right-head{
+            display none;
+        }
+    }
+    .app-header{
+        left 0 ;
+        transform none;
+
     }
 }

@@ -15,7 +15,7 @@ export class PaginationTable extends React.Component{
         }
     }
     render(){
-        const {colums,list, redirect =null} =this.props;
+        const {colums,list, redirect =null,perPage=10} =this.props;
         const {page} =this.state;
         return(
             <div className="pagination-table-cover">
@@ -42,7 +42,7 @@ export class PaginationTable extends React.Component{
                     </thead>
                     <tbody>
                         {
-                            list && colums && list.slice( (page-1)*10, page*10 ).map((o,i) =>{
+                            list && colums && list.slice( (page-1)*perPage, page*perPage ).map((o,i) =>{
                                 return(
                                     <tr
                                         // onClick={()=>redHoirect && redirect(o.build_name)}
@@ -70,6 +70,7 @@ export class PaginationTable extends React.Component{
                         <Pagination
                             total={list.length}
                             pageNum={this.state.page}
+                            perPage={perPage}
                             onChangePage={(page)=> this.setState({page: page})}
                         />
                 }

@@ -16,7 +16,7 @@ export class AppLayout extends React.Component {
         return (
             <div className='app-layout'>
                 <AppHeader/>
-                <div className='child-cover'>
+                <div className='main-son child-cover'>
                     {mainChild()}
                 </div>
             </div>

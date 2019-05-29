@@ -1,0 +1,37 @@
+.select-option{
+    position relative;
+    .select-area{
+        position relative;
+        width 100%;
+        border 1px solid #e3e3e3
+        border-radius 4px;
+        background #f9f9f9
+        .display-value{
+            position absolute ;
+            padding 0 5px;
+            z-index 5;
+        }
+        .fa-sort-down{
+            position absolute;
+            right 0 ;
+            top calc(50% - 3px) ;
+            transform translate(-50%, -50%)
+        }
+    }
+    .dropdown-content{
+        position absolute;
+        overflow auto;
+        min-width 200px;
+        max-height 300px;
+        background white
+        box-shadow: 0 6px 10px -1px rgba(168, 168, 168, 1);
+        .item{
+            padding 0 5px;
+            cursor pointer;
+            &:hover{
+                background #0cabf8;
+                color white;
+            }
+        }
+    }
+}
