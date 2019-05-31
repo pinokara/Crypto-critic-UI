@@ -6,6 +6,7 @@ import {coinsList} from "../../../../../assets/cryto-data/coins-list";
 import {SearchArea} from "../search-area/search-area";
 import {Link} from "react-router-dom";
 import {SelectOption} from "../../../common/select-option/select-option";
+import {SelectCountry} from "./select-country/select-country";
 export class AppHeader extends React.Component{
     constructor(props){
         super(props);
@@ -116,42 +117,3 @@ export class AppHeader extends React.Component{
     }
 }
 
-class SelectCountry extends React.Component{
-    constructor(props){
-        super(props) ;
-        this.state={
-        }
-    }
-    render(){
-        let country =countryServices.getCountry() || {
-            code: 'us',
-            flag: 'us.svg',
-            name:'United States'
-        };
-        return(
-            <div
-                className='select-country'>
-                <div
-
-                    className='label'>
-                    Languages
-                    <img className='country-img' width='20px' src={`/assets/img/flags/${country.flag}`} alt=""/>
-                    <i className="fas fa-caret-down"></i>
-                </div>
-
-                 <div className='content-dropdown flex-row'>
-                    {
-                        countries.map((o,i) =>
-                            <img
-                                key={i}
-                                onClick={()=>{
-                                countryServices.setCountry(o)
-                            }}
-                             width='30px' height='30px' src={`/assets/img/flags/${o.flag}`}/>)
-                    }
-                </div>
-
-            </div>
-        )
-    }
-}

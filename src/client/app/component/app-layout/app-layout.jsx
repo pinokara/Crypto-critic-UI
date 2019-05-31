@@ -1,9 +1,5 @@
 import React from "react";
-import {AppHeader} from "./app-header/app-header";
-import {InputForm} from "../../common/input-form/input-form";
-import {SearchArea} from "./search-area/search-area";
-import {coinsList} from "../../../../assets/cryto-data/coins-list";
-import {Link} from "react-router-dom";
+import {AppHeader2} from "./app-header/app-header-2";
 
 export class AppLayout extends React.Component {
     constructor(props) {
@@ -15,7 +11,7 @@ export class AppLayout extends React.Component {
         const {mainChild, ...props} = this.props;
         return (
             <div className='app-layout'>
-                <AppHeader/>
+                <AppHeader2/>
                 <div className='main-son child-cover'>
                     {mainChild()}
                 </div>

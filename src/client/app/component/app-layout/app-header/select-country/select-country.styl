@@ -1,0 +1,26 @@
+.select-country {
+    position relative;
+    .country-img {
+        margin-left 5px;
+    }
+    .content-dropdown {
+        display none;
+        background #ececec !important
+        padding 5px;
+        flex-wrap wrap
+        position absolute;
+        z-index 50;
+        top 50px;
+        right 0;
+        width 200px;
+        img {
+            padding 0 2px;
+        }
+    }
+
+    &:hover {
+        .content-dropdown {
+            display block;
+        }
+    }
+}

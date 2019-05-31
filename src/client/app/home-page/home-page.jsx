@@ -12,56 +12,63 @@ import {cryptoApi} from "../../api/crypto-api/crypto-api";
 import {SwitchTabs} from "../component/switch-tabs/switch-tabs";
 import {SelectOption} from "../common/select-option/select-option";
 import {coinsList} from "../../../assets/cryto-data/coins-list";
+var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+});
 export class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             list: null,
-            votes:null,
-            voting:false
+            votes: null,
+            voting: false,
+            searchKey:''
         };
         this.loadMarket();
         this.loadVotes()
 
     };
-    loadMarket(){
-        cryptoApi.getMarket().then(data =>{
+
+    loadMarket() {
+        cryptoApi.getMarket().then(data => {
             this.setState({list: data})
         })
     }
-    loadVotes(st={}){
-        voteApi.getVotes().then(data=>{
+
+    loadVotes(st = {}) {
+        voteApi.getVotes().then(data => {
             this.setState({
                 votes: data,
                 ...st
             })
         })
     }
-    formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-    });
+
+
     isNegativeNum = (num) => num < 0 ? "down" : 'up'
-    handleVote(id=null){
-        const {voting} =this.state;
-        this.setState({voting :true})
+
+    handleVote(id = null) {
+        const {voting} = this.state;
+        this.setState({voting: true})
         console.log(id)
-        voteApi.voteCoin(id).then(data =>{
-            if(!data.error) this.loadVotes({voting:false})
-            else this.setState({voting :false})
+        voteApi.voteCoin(id).then(data => {
+            if (!data.error) this.loadVotes({voting: false})
+            else this.setState({voting: false})
         })
     }
-    convertColumns=(country={}, votes={}, voting=false)=>{
+
+    convertColumns = (country = {}, votes = {}, voting = false) => {
         return [
             {
-                label :'Vote',
-                renderCell :(item)=>
+                label: 'Vote',
+                renderCell: (item) =>
                     <div
                         className='cell vote'
-                        onClick={()=>{
+                        onClick={() => {
                             console.log(item)
-                             !voting && this.handleVote(item.id)
+                            !voting && this.handleVote(item.id)
                         }}
                     >
                         <i className="fas fa-thumbs-up"></i>
@@ -91,7 +98,7 @@ export class HomePage extends React.Component {
             },
             {
                 label: languages[country.code].coins_table[1],
-                renderCell: (item) => <div className='cell price'>{this.formatter.format(item.current_price)}</div>,
+                renderCell: (item) => <div className='cell price'>{formatter.format(item.current_price)}</div>,
                 classNames: 'right'
             },
             {
@@ -114,18 +121,19 @@ export class HomePage extends React.Component {
                 label: languages[country.code].coins_table[4],
                 renderCell: (item) => <div className='cell percent'><span
                     className={this.isNegativeNum(item.price_change_percentage_7d_in_currency)}>
-                {item.price_change_percentage_7d_in_currency ? item.price_change_percentage_7d_in_currency.toFixed(1) : 'NAN'}%</span></div>,
+                {item.price_change_percentage_7d_in_currency ? item.price_change_percentage_7d_in_currency.toFixed(1) : 'NAN'}%</span>
+                </div>,
                 classNames: 'mid'
             },
             {
                 label: languages[country.code].coins_table[5],
                 renderCell: (item) => <div
-                    className='cell price'>{this.formatter.format(Math.floor(item.total_volume))}</div>,
+                    className='cell price'>{formatter.format(Math.floor(item.total_volume))}</div>,
                 classNames: 'right'
             },
             {
                 label: languages[country.code].coins_table[6],
-                renderCell: (item) => <div className='cell'>{this.formatter.format(Math.floor(item.market_cap))}</div>,
+                renderCell: (item) => <div className='cell'>{formatter.format(Math.floor(item.market_cap))}</div>,
                 classNames: 'right'
             },
             {
@@ -136,8 +144,6 @@ export class HomePage extends React.Component {
             }
         ]
     }
-
-
 
 
     modeSeries = (price) => {
@@ -153,32 +159,32 @@ export class HomePage extends React.Component {
     }
 
     render() {
-        const {list, votes, voting} = this.state;
-        let country = countryServices.getCountry() || {code :'us', flag:'en.svg' ,name:'United State'} ;
+        const {list, votes, voting, searchKey} = this.state;
+        let country = countryServices.getCountry() || {code: 'us', flag: 'en.svg', name: 'United State'};
 
-        let tabs=[
+        let tabs = [
             {
-                label :'Master Node',
-                renComp :()=> <LoadingPanel/>
+                label: 'Master Node',
+                renComp: () => <LoadingPanel/>
             },
             {
-                label :'All',
-                renComp:() => (!list || !votes )? <LoadingPanel/> :
+                label: 'All',
+                renComp: () => (!list || !votes) ? <LoadingPanel/> :
                     <PaginationTable
                         perPage={10}
-                        colums={this.convertColumns(country ,votes,voting)}
+                        colums={this.convertColumns(country, votes, voting)}
                         list={list}
                     />
             },
             {
-                label :'IEO',
-                renComp:()=> <div className='ieo-tab text-center'>
+                label: 'IEO',
+                renComp: () => <div className='ieo-tab text-center'>
                     IEO
                 </div>
             },
             {
-                label :'New Project',
-                renComp:()=> <div className='new-project-tab text-center'>
+                label: 'New Project',
+                renComp: () => <div className='new-project-tab text-center'>
                     New Project
                 </div>
             }
@@ -186,12 +192,43 @@ export class HomePage extends React.Component {
         return (
             <AppLayout
                 props={{...this.props}}
-                mainChild={()=>
+                mainChild={() =>
                     <div className='home-page'>
-                    <SwitchTabs
-                        tabs={tabs}
-                        defaultTab={1}
-                    />
+
+                        <div className='cards flex-row'>
+                            {
+                                list && [...Array(3)].map((o,i)=>{
+                                    return(
+                                        <InfoCard
+                                            key={i}
+                                            label='Top Volume'
+                                            name={list[i].name}
+                                            volume={list[i].total_volume}
+                                            price={list[i].current_price}
+
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+
+                        <div className='txs-search'>
+                            <i className="fas fa-search"></i>
+                            <input
+                                placeholder='Search all assets...'
+                                value={searchKey}
+                                onChange={(e)=>{
+                                    this.setState({searchKey : e.target.value})
+                                }}
+                                className='txs-input' type="text"
+                            />
+
+                        </div>
+
+                        <SwitchTabs
+                            tabs={tabs}
+                            defaultTab={1}
+                        />
                     </div>
                 }
             />
@@ -200,3 +237,21 @@ export class HomePage extends React.Component {
 }
 
 
+class InfoCard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    };
+
+    render() {
+        const {label, name, price, volume} =this.props ;
+        return (
+            <div className='info-card text-center flex-column'>
+                <h3 className='label' >{label}</h3>
+                <div className='name'>{name}</div>
+                <div className='volume'>{formatter.format(volume)}</div>
+                <h4 className='price'>{formatter.format(price)}</h4>
+            </div>
+        );
+    }
+}
