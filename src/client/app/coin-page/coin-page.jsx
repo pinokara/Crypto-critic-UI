@@ -81,7 +81,7 @@ export class CoinPage extends React.Component {
                                                 <span>
                                                     <i className="fas fa-dollar-sign"></i>
                                                     <b>Daily Income: </b>
-                                                    {"$680" + " " + "(BLS)"}
+                                                    {"$680" + " " + "(CCC)"}
                                                 </span>
 
                                                 <span>
