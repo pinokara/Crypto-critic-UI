@@ -1,8 +1,9 @@
 .main-head{
     .app-header-2{
+        padding 5px;
         .head-left{
-            align-items center;
-            justify-content start;
+            //align-items center;
+            justify-content center;
             font-size 13px;
             .head-item{
                 display inline-block;
@@ -29,6 +30,7 @@
             font-size 30px ;
             font-weight 700;
             padding 25px 0;
+            color black !important
         }
         .drr{
             color #525f7f !important
@@ -37,6 +39,23 @@
             &.act{
                 border-bottom 1px solid #292929
             }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .app-header-2{
+        .head-left{
+
+            flex-direction column !important;
+            align-items none !important;
+            justify-content flex-start;
+        }
+
+        .head-right{
+            font-size 13px !important
+            flex 1 ;
+            justify-content flex-end
         }
     }
 }

@@ -41,20 +41,17 @@ export class AppHeader2 extends React.Component {
         let theme = themeServices.getTheme();
         return (
             <div className='main-head flex-column'>
-                <div className='app-header-2 child-cover flex-row'>
+                <div className='app-header-2 child-cover flex-column'>
                     <div className='head-left flex-row'>
                         <div className='head-item'>
                             <b>Masternode Projects :</b> <span className='text'>100</span>
                         </div>
-                        .
                         <div className='head-item'>
                             <b>Market Cap : </b><span className='text'>$279.000.000.000</span>
                         </div>
-                        .
                         <div className='head-item'>
                             <b>24h Volume : </b> <span className='text'>$279.000.000.000</span>
                         </div>
-                        .
                         <div className='head-item'>
                             <b>Dash Dominance : </b><span className='text'>55.3%</span>
                         </div>
@@ -87,9 +84,11 @@ export class AppHeader2 extends React.Component {
                 </div>
 
                 <div className='page-direct child-cover flex-column'>
-                    <div className='web-name'>
-                        cryptocritic
-                    </div>
+                    <a href="/">
+                        <div className='web-name'>
+                            cryptocritic
+                        </div>
+                    </a>
                     <div>
                         {
                             routes.map((o, i) => {

@@ -45,11 +45,11 @@ export class CoinPage extends React.Component {
                     <div
                         className='coin-page'
                     >
-                        <div className='coin-head flex-row'>
+                        {/*<div className='coin-head flex-row'>*/}
                             {/*<div className='item name text-center'>*/}
                                 {/*CRYPTO CRITIX*/}
                             {/*</div>*/}
-                        </div>
+                        {/*</div>*/}
                         <div className='coin-main flex-row'>
 
                             <div className='coin-left flex-column'>
