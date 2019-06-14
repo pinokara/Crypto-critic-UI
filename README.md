@@ -1,1 +1,1 @@
-# Crypto critx
+# Crypto critic
