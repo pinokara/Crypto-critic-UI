@@ -30,6 +30,8 @@ app.post("/api/file/upload" , upload.single('imageFile') , (req,res) =>{
 require("../server-controllers/user-controller")(router)
 require("../server-controllers/vote-controller")(router)
 require("../server-controllers/crypto-controller")(router)
+require("../server-controllers/explorer-controller")(router)
+
 app.get("*",(req, res, next) => {
     res.sendFile(__dirname + "/index.html");
 });

@@ -7,11 +7,11 @@ import {LineChart} from "../component/line-chart/line-chart";
 import {LoadingPanel} from "../common/loading/loading-panel/loading-panel";
 import {countryServices} from "../services/country-info";
 import {themeServices} from "../services/theme-info";
-import {api} from "../../api/api";
 import {HighChartLine} from "../component/high-chart-line/high-chart-line";
 import {explorerApi} from "../../api/explorer-api/explorer-api";
 import {PaginationTable} from "../component/pagination-table/pagination-table";
 import moment from 'moment';
+// import {DateUtil} from './../../../utils/date-util'
 export class CoinPage extends React.Component {
     constructor(props) {
         super(props);
@@ -43,11 +43,13 @@ export class CoinPage extends React.Component {
         const {searchKey} = this.state;
         if(!searchKey || searchKey.length <1){
             this.setState({blockInfo :null})
+        }else{
+            explorerApi.getBlock('award',searchKey).then(data => {
+                console.log(data);
+                this.setState({blockInfo: data })
+            })
         }
-        explorerApi.getBlockHeight(searchKey).then(data => {
-            console.log(data);
-            this.setState({blockInfo: data })
-        })
+
     }
 
     render() {
@@ -56,6 +58,33 @@ export class CoinPage extends React.Component {
         let theme = themeServices.getTheme();
         let {id} = match.params;
         const {coin, sparkline, searchKey, blockInfo,displayBlockInfo} = this.state;
+        var overview=[
+            {
+                left:()=> <div><i className="fas fa-signal"></i> Volume:</div>,
+                right: ({sparkline, name}) => <div>{formatter.format(sparkline.total_volumes[sparkline.total_volumes.length -1][1])}</div>
+            },
+            {
+                left:() => <div><i className="fas fa-hand-holding-usd"></i> Market:</div>,
+                right:({sparkline, name}) => <div>{formatter.format(sparkline.market_caps[sparkline.market_caps.length -1 ][1])}</div>
+            },
+            {
+                left: () => <div><i className="fas fa-exchange-alt"></i> ROI:</div>,
+                right :() => <div>6.60%</div>
+            },
+            {
+                left: ()=> <div><i className="fas fa-sticky-note"></i> Nodes:</div>,
+                right : () => <div>2,391</div>
+            },
+            {
+                left: () =><div><i className="fas fa-check"></i> Collatetal:</div>,
+                right : ({sparkline, name}) => <div>1,000 {name.toUpperCase()}</div>
+            },
+            {
+                left: () => <div><i className="fas fa-check"></i> MN Worth</div>,
+                right : ({sparkline, name}) => <div>........</div>
+            },
+
+        ]
         return (
             <AppLayout
                 props={{...this.props}}
@@ -68,48 +97,41 @@ export class CoinPage extends React.Component {
                             <div className='coin-left flex-column'>
                                 {
                                     !coin ? <LoadingPanel/> :
-                                        <Fragment>
+                                        <div className='left-info'>
                                             <span className='rank'># Rank 1</span>
                                             <div className='image-wrap'>
                                                 <img width='180px' height='180px' src={`/coins/${coin.id}.png`}
                                                      alt={coin.name}/>
                                             </div>
+                                            <h2 className='price text-center'>
+                                                {formatter.format(coin.tickers[4].last)}
+                                            </h2>
                                             <div className='name text-center'>
                                                 {coin.name}
                                             </div>
                                             <div
                                                 className='summary'
                                             >
-                                                <h5>Sumary:</h5>
+                                                <h5>Overview:</h5>
 
                                                 <div className='flex-column'>
-                                                <span><i className="fas fa-tags"></i>
-                                                    <b>Price: </b> {coin.tickers[1].last + " BTC " + '(' + formatter.format(coin.tickers[0].last) + ")"}
-                                                </span>
-
-                                                    <span>
-                                                    <i className="far fa-chart-bar"></i>
-                                                    <b>Volume: </b>
-                                                        {coin.tickers[0].converted_volume.btc + '(' + formatter.format(coin.tickers[0].converted_volume.usd) + ")"}
-                                                </span>
-
-                                                    <span>
-                                                    <i className="fas fa-dollar-sign"></i>
-                                                    <b>Daily Income: </b>
-                                                        {"$680" + " " + "(CCC)"}
-                                                </span>
-
-                                                    <span>
-                                                    <i className="fab fa-accusoft"></i>
-                                                    <b>ROI: </b>
-                                                    3,000%
-                                                </span>
-
+                                                        {
+                                                            sparkline && overview.map((o,i)=>(
+                                                                <div key={i} className='ov-row'>
+                                                                    <div className='on-left'>
+                                                                        {o.left()}
+                                                                    </div>
+                                                                    <div className='on-right'>
+                                                                        {o.right({sparkline ,name: coin.name})}
+                                                                    </div>
+                                                                </div>
+                                                            ))
+                                                        }
+                                                    </div>
                                                 </div>
 
 
-                                            </div>
-                                        </Fragment>
+                                        </div>
                                 }
                                 <ExternalsLink/>
                             </div>
@@ -137,7 +159,7 @@ export class CoinPage extends React.Component {
                                             </div>
 
                                             {
-                                                blockInfo ==null ? <Fragment>
+                                                !blockInfo ? <Fragment>
                                                         <MasterNodeStats
                                                             name={coin.name}
                                                         />
@@ -170,15 +192,66 @@ export class CoinPage extends React.Component {
 }
 
 
-const ExternalsLink = (props) => (
-    <div className='externals-link'>
-        <h5>Externals Link</h5>
-        <span>
-            <i className="fas fa-home"></i>
-            <b></b>
-        </span>
-    </div>
-)
+const ExternalsLink = (props) => {
+    var links=[
+        {
+            label :()=> <a className='site-link' href='#'><i className="fas fa-home"></i> Website</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'><i className="fab fa-bitcoin"></i> Bitcointalk ANN</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'><i className="fab fa-github-square"></i> Github</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'><i className="fab fa-discord"></i> Discord</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'><i className="fab fa-twitter"></i> Twitter</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'><i className="fab fa-searchengin"></i> Explorer 1</a>,
+        }
+    ]
+    var markets=[
+        {
+            label :()=> <a className='site-link' href='#'>Crypto-Bride</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'>STEK</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'>Bittrex</a>,
+        },
+        {
+            label :()=> <a className='site-link' href='#'>Binance</a>,
+        }
+    ]
+    return(
+        <div className='externals-link flex-row'>
+            <div className='left-content'>
+                <h5>Links</h5>
+                <div style={{justifyContent:'start'}} className='flex-column'>
+                    {
+                        links.map((o,i) =>
+                            (<div style={{textAlign :'left'}}  key={i}>{o.label()}</div>)
+                        )
+                    }
+                </div>
+            </div>
+            <div className='right-content'>
+                <h5>Markets</h5>
+                <div style={{justifyContent:'start'}} className='flex-column'>
+                    {
+                        markets.map((o,i) =>
+                            (<div style={{textAlign :'left'}} key={i}>{o.label()}</div>)
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    )
+}
 
 
 class IncomeSec extends React.Component {
@@ -192,7 +265,7 @@ class IncomeSec extends React.Component {
             {
                 content: <Fragment>
                     <span><b>Annual ROI: </b> 3000%</span>
-                    <span><b>Paid Rewards: </b> 1 BLS</span>
+                    <span><b>Paid Rewards: </b> 1 BTC</span>
                     <span><b>Reward Frequency: </b>2h24m</span>
                     <span><b>Active Nodes: </b> 100 </span>
                 </Fragment>
@@ -204,7 +277,7 @@ class IncomeSec extends React.Component {
                     <div className='daily text-center flex-column'>
                         <span>DAILY INCOME</span>
                         <span className='big-price'>$68.123</span>
-                        <span>0.01 BTC (10 BLS)</span>
+                        <span>0.01 BTC (10 BTC)</span>
                     </div>
                 </Fragment>
             },
@@ -215,7 +288,7 @@ class IncomeSec extends React.Component {
                     <div className='weekly text-center flex-column'>
                         <span>WEEKLY INCOME</span>
                         <span className='big-price'>$68.123</span>
-                        <span>0.07 BTC (70 BLS)</span>
+                        <span>0.07 BTC (70 BTC)</span>
                     </div>
                 </Fragment>
             },
@@ -226,7 +299,7 @@ class IncomeSec extends React.Component {
                     <div className='monthly text-center flex-column'>
                         <span>MONTHLY INCOME</span>
                         <span className='big-price'>$2020.23</span>
-                        <span>0.3 BTC (300 BLS)</span>
+                        <span>0.3 BTC (300 BTC)</span>
                     </div>
                 </Fragment>
             }
@@ -308,43 +381,45 @@ const BlockInfo = (props) => {
     let columns =[
         {
             label :'Transaction ID',
-            renderCell :(item ) => <div className='cell'>{item.txid}</div>
+            renderCell :(item ) => <a className='cell'>{item.txId}</a>
         },
         {
             label :'Total',
-            renderCell:(item) =><div className="cell">{item.total}</div>
+            renderCell:(item) =><div className="cell">{item.vout?item.vout.reduce((u,v) => (u*10+v.value*10)/10 ,0 ) :0}</div>,
+            classNames :'right'
         },
         {
             label :'Time',
-            renderCell :(item ) => <div className="cell">{moment(item.timestamp*1000).format('MM/DD/YYYY, hh:mm:ss')}</div>
+            renderCell :(item ) => <div className="cell">{ moment(new Date(item.createdAt)).format('MM/DD/YYYY, HH:mm:ss')}</div>,
+            classNames :'right'
         }
     ]
     return (
         <div className='block-info'>
             <h2>Block Infomation</h2>
-            <pre>
-                Hash: {blockInfo.hash} <br/>
-                Previous Block: {blockInfo.previousblockhash} <br/>
-                Next Block: {blockInfo.nextblockhash} <br/>
-                Height: {blockInfo.height} <br/>
-                Version: {blockInfo.version} <br/>
-                Transaction Merkle Root: {blockInfo.merkleroot} <br/>
-                Time: {blockInfo.time} <br/>
-                Difficulty: {blockInfo.difficulty} (Bits {blockInfo.bits}) <br/>
+            <div className='info'>
+                Hash: {blockInfo.block.hash} <br/>
+                Previous Block: {blockInfo.block.prev} <br/>
+                Next Block: {blockInfo.block.nextblockhash} <br/>
+                Height: {blockInfo.block.height} <br/>
+                Version: {blockInfo.block.ver} <br/>
+                Transaction Merkle Root: {blockInfo.block.merkle} <br/>
+                Difficulty: {blockInfo.block.diff} (Bits {blockInfo.block.bits}) <br/>
                 Cumulative Difficulty: 23 271 074 323 395.176 <br/>
-                Nonce: {blockInfo.nonce} <br/>
-                Value out: 1742.80784041 <br/>
-                Transaction Fees: 0.00044665 <br/>
+                Nonce: {blockInfo.block.nonce} <br/>
+                Size : {blockInfo.block.size} <br/>
                 Average Coin Age: 506.946 days <br/>
                 Coin-days Destroyed: 926.73755404 <br/>
                 Cumulative Coin-days Destroyed: 65.1329% <br/>
-            </pre>
-            <h2>Block's Transactions</h2>
-            <PaginationTable
-                perPage={10}
-                colums={columns}
-                list={blockInfo.txs}
-            />
+            </div>
+            <h2 className='block-txs-label'>Block's Transactions</h2>
+            <div className='txs-list'>
+                <PaginationTable
+                    perPage={10}
+                    colums={columns}
+                    list={blockInfo.txs}
+                />
+            </div>
         </div>
     );
 }

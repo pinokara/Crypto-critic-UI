@@ -28,9 +28,8 @@
         .coin-left {
             display inline-block
             margin 10px 20px;
-            padding 10px;
             width 300px;
-            height: 420px;
+            height: auto;
             .rank {
                 border-radius: 9px;
                 background: #c6ddff;
@@ -56,6 +55,30 @@
                         min-width 30px;
                     }
                 }
+                h5{
+                    border-bottom 1px solid #e3e3e3;
+                }
+                .ov-row{
+                    .on-left{
+                        float left;
+                    }
+                    .on-right{
+                        float right;
+                    }
+                }
+            }
+            .externals-link{
+                margin-top 30px;
+                .left-content ,.right-content{
+                    flex: 1 ;
+                    h5{
+                        text-align left
+                        border-bottom 1px solid #e3e3e3;
+                    }
+                }
+                .site-link{
+                    color #525f7f
+                }
             }
         }
 
@@ -64,10 +87,12 @@
             width: 100%;
             min-height 500px;
             //margin 10px 20px;
-            padding 10px 10px 10px 0;
+            padding 10px;
             .masternode-stats{
                 background white;
-                box-shadow 0 0 20px rgba(0,0,0,.2);
+                //box-shadow 12px 25px 25px 5px rgba(0,0,0,0.2)
+                box-shadow 0 5px 40px rgba(0,0,0,0.2);
+
                 margin-bottom: 30px;
                 .stat{
                     border-bottom 1px solid #f6f6f6
@@ -79,11 +104,28 @@
                 }
             }
             .block-info{
-                pre{
-                    padding 5px 10px ;
-                    border 1px solid #e3e3e3
-                    border-radius 5px;
+                .info{
+                    border 1px solid #e3e3e3;
+                    border-radius 5px ;
                     background white;
+                    box-shadow 0 5px 5px rgba(0,0,0,0.2);
+                    padding 5px 10px ;
+                    .row-info{
+                        overflow auto;
+                        div{
+                            flex 1;
+                        }
+                    }
+                }
+                .block-txs-label{
+                    margin-top 30px;
+                }
+                .txs-list{
+                    border 1px solid #e3e3e3;
+                    border-radius 5px ;
+                    background white;
+                    box-shadow 0 5px 5px rgba(0,0,0,0.2);
+                    padding 5px 10px ;
                 }
                 .footer-pg{
                     display none;

@@ -9,7 +9,6 @@ import {themeServices} from "./services/theme-info";
 import classnames from 'classnames'
 import {ExplorerPage} from "./explorer-page/explorer-page";
 import {BlockPage} from "./block-page/block-page";
-import {CSSTransition, TransitionGroup} from "react-transition-group";
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
         constructor(props, context) {
@@ -64,49 +63,11 @@ export class MainRoutes extends BaseComponent {
                         <Route  path="/coin/:id" exact component={CoinPage}/>
                         <Route  path="/explorer/:id"  component={ExplorerPage}/>
                         <Route  path="/block/:id"  component={BlockPage}/>
-                        <Route  path="/ani"  component={Meme}/>
 
                         <Route exact render={()=><Redirect to="/" />}/>
 
                     </Switch>
                 </BrowserRouter>
-            </div>
-        );
-    }
-}
-
-class Meme extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            list: [{name :'Huy bui duc'}]
-        };
-    };
-    render(){
-        const {list} =this.state;
-        return(
-            <div className='meme'>
-                aaaaaaaaa
-                {/*<TransitionGroup*/}
-                    {/*className='todo-list'*/}
-                {/*>*/}
-                    {/*<CSSTransition*/}
-                        {/*classNames='item'*/}
-                    {/*>*/}
-                        {/*huy*/}
-                        {/*/!*{*!/*/}
-                            {/*/!*list.map((o,i)=>{*!/*/}
-                                {/*/!*return(*!/*/}
-                                    {/*/!*<div key={i} className='item'>*!/*/}
-                                        {/*/!*{*!/*/}
-                                            {/*/!*o.name*!/*/}
-                                        {/*/!*}*!/*/}
-                                    {/*/!*</div>*!/*/}
-                                {/*/!*)*!/*/}
-                            {/*/!*})*!/*/}
-                        {/*/!*}*!/*/}
-                    {/*</CSSTransition>*/}
-                {/*</TransitionGroup>*/}
             </div>
         );
     }

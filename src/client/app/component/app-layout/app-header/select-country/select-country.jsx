@@ -6,6 +6,7 @@ export class SelectCountry extends React.Component{
     constructor(props){
         super(props) ;
         this.state={
+            display:false
         }
     }
     render(){
@@ -19,7 +20,9 @@ export class SelectCountry extends React.Component{
                 className='select-country'>
                 <div
                     className='label'>
-                    <img className='country-img' width='20px' src={`/assets/img/flags/${country.flag}`} alt=""/>
+                    <img
+                        onClick={()=> this.setState({display :true})}
+                        className='country-img' width='20px' src={`/assets/img/flags/${country.flag}`} alt=""/>
                     <i className="fas fa-caret-down"></i>
                 </div>
 
