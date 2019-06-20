@@ -14,7 +14,7 @@ export class SwitchTabs extends React.Component {
     };
 
     render() {
-        const {tabs = null, defaultTab = 1} = this.props;
+        const {tabs = null, defaultTab = 1, extComp =null} = this.props;
         const {tab} = this.state;
         return (
             <div className='switch-tabs'>
@@ -34,6 +34,14 @@ export class SwitchTabs extends React.Component {
                         })
                     }
                 </div>
+                {
+                    extComp && (
+                        <div className='fking-comp'>
+                            {extComp()}
+                        </div>
+                    )
+                }
+
                 <div className='contain'>
                     {
                         tabs[tab].renComp()

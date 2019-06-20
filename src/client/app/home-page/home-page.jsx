@@ -12,11 +12,14 @@ import {cryptoApi} from "../../api/crypto-api/crypto-api";
 import {SwitchTabs} from "../component/switch-tabs/switch-tabs";
 import {SelectOption} from "../common/select-option/select-option";
 import {coinsList} from "../../../assets/cryto-data/coins-list";
+import {SearchExp} from "./search-exp/search-exp";
+
 var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
 });
+
 export class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +27,7 @@ export class HomePage extends React.Component {
             list: null,
             votes: null,
             voting: false,
-            searchKey:''
+            searchKey: ''
         };
         this.loadMarket();
         this.loadVotes()
@@ -50,11 +53,23 @@ export class HomePage extends React.Component {
     isNegativeNum = (num) => num < 0 ? "down" : 'up'
 
     handleVote(id = null) {
-        const {voting} = this.state;
+        const {voting, votes} = this.state;
         this.setState({voting: true})
         console.log(id)
         voteApi.voteCoin(id).then(data => {
-            if (!data.error) this.loadVotes({voting: false})
+            console.log(data);
+            let newVotes={};
+            if (!data.error) {
+                for(let i in votes){
+                    newVotes[i] = votes[i] ;
+                    if(i == data.stat.coinId){
+                        newVotes[i].count = data.stat.count;
+                    }else{
+                        newVotes[id]= data.stat
+                    }
+                }
+                this.setState({ votes : newVotes , voting:false})
+            }
             else this.setState({voting: false})
         })
     }
@@ -197,8 +212,8 @@ export class HomePage extends React.Component {
 
                         <div className='cards flex-row'>
                             {
-                                list && [...Array(3)].map((o,i)=>{
-                                    return(
+                                list && [...Array(3)].map((o, i) => {
+                                    return (
                                         <InfoCard
                                             key={i}
                                             label='Top Volume'
@@ -212,22 +227,21 @@ export class HomePage extends React.Component {
                             }
                         </div>
 
-                        <div className='txs-search'>
-                            <i className="fas fa-search"></i>
-                            <input
-                                placeholder='Search all assets...'
-                                value={searchKey}
-                                onChange={(e)=>{
-                                    this.setState({searchKey : e.target.value})
-                                }}
-                                className='txs-input' type="text"
-                            />
-
-                        </div>
 
                         <SwitchTabs
                             tabs={tabs}
                             defaultTab={1}
+                            extComp={() => <SearchExp
+                                list={coinsList}
+                                displayItemsAs={(val)=> (
+                                    <div
+                                        onClick={()=> this.props.history.push(`/coin/${val.name.toLowerCase()}`)}
+                                        className='flex-row'>
+                                        <img style={{marginRight:5 }} height='30px' src={`/coins/${val.image}`} alt=""/>
+                                        <span>{val.name}</span>
+                                    </div>
+                                )}
+                            />}
                         />
                     </div>
                 }
@@ -244,10 +258,10 @@ class InfoCard extends React.Component {
     };
 
     render() {
-        const {label, name, price, volume} =this.props ;
+        const {label, name, price, volume} = this.props;
         return (
             <div className='info-card text-center flex-column'>
-                <h3 className='label' >{label}</h3>
+                <h3 className='label'>{label}</h3>
                 <div className='name'>{name}</div>
                 <div className='volume'>{formatter.format(volume)}</div>
                 <h4 className='price'>{formatter.format(price)}</h4>

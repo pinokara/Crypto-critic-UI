@@ -33,6 +33,9 @@ export class CoinPage extends React.Component {
             this.setState({sparkline: data})
         })
     };
+    componentWillMount(){
+        window.scrollTo(0, 0);
+    }
 
 
     componentDidMount() {
