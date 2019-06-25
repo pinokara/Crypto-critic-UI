@@ -116,22 +116,22 @@ export class HomePage extends React.Component {
                 renderCell: (item) => <div className='cell price'>{formatter.format(item.current_price)}</div>,
                 classNames: 'right'
             },
-            {
-                label: languages[country.code].coins_table[2],
-                renderCell: (item) => <div className='cell percent'>
-                <span className={this.isNegativeNum(item.price_change_percentage_1h_in_currency)}>
-                    {item.price_change_percentage_1h_in_currency.toFixed(1)}%
-                </span>
-                </div>,
-                classNames: 'mid'
-            },
-            {
-                label: languages[country.code].coins_table[3],
-                renderCell: (item) => <div className='cell percent'><span
-                    className={this.isNegativeNum(item.price_change_percentage_24h_in_currency)}>
-                {item.price_change_percentage_24h_in_currency.toFixed(1)}%</span></div>,
-                classNames: 'mid'
-            },
+            // {
+            //     label: languages[country.code].coins_table[2],
+            //     renderCell: (item) => <div className='cell percent'>
+            //     <span className={this.isNegativeNum(item.price_change_percentage_1h_in_currency)}>
+            //         {item.price_change_percentage_1h_in_currency.toFixed(1)}%
+            //     </span>
+            //     </div>,
+            //     classNames: 'mid'
+            // },
+            // {
+            //     label: languages[country.code].coins_table[3],
+            //     renderCell: (item) => <div className='cell percent'><span
+            //         className={this.isNegativeNum(item.price_change_percentage_24h_in_currency)}>
+            //     {item.price_change_percentage_24h_in_currency.toFixed(1)}%</span></div>,
+            //     classNames: 'mid'
+            // },
             {
                 label: languages[country.code].coins_table[4],
                 renderCell: (item) => <div className='cell percent'><span

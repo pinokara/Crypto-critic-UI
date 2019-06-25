@@ -11,6 +11,8 @@ import {HighChartLine} from "../component/high-chart-line/high-chart-line";
 import {explorerApi} from "../../api/explorer-api/explorer-api";
 import {PaginationTable} from "../component/pagination-table/pagination-table";
 import moment from 'moment';
+import {BlockInfo} from "../block-page/block-info/block-info";
+
 // import {DateUtil} from './../../../utils/date-util'
 export class CoinPage extends React.Component {
     constructor(props) {
@@ -20,7 +22,7 @@ export class CoinPage extends React.Component {
             sparkline: null,
             searchKey: '',
             blockInfo: null,
-            displayBlockInfo :false
+            displayBlockInfo: false
         };
         this.id = this.props.match.params.id;
 
@@ -33,7 +35,8 @@ export class CoinPage extends React.Component {
             this.setState({sparkline: data})
         })
     };
-    componentWillMount(){
+
+    componentWillMount() {
         window.scrollTo(0, 0);
     }
 
@@ -44,12 +47,12 @@ export class CoinPage extends React.Component {
 
     onSearchExplorer(txid) {
         const {searchKey} = this.state;
-        if(!searchKey || searchKey.length <1){
-            this.setState({blockInfo :null})
-        }else{
-            explorerApi.getBlock('award',searchKey).then(data => {
+        if (!searchKey || searchKey.length < 1) {
+            this.setState({blockInfo: null})
+        } else {
+            explorerApi.getBlock('award', searchKey).then(data => {
                 console.log(data);
-                this.setState({blockInfo: data })
+                this.setState({blockInfo: data})
             })
         }
 
@@ -60,33 +63,51 @@ export class CoinPage extends React.Component {
         let country = countryServices.getCountry();
         let theme = themeServices.getTheme();
         let {id} = match.params;
-        const {coin, sparkline, searchKey, blockInfo,displayBlockInfo} = this.state;
-        var overview=[
+        const {coin, sparkline, searchKey, blockInfo, displayBlockInfo} = this.state;
+        var overview = [
             {
-                left:()=> <div><i className="fas fa-signal"></i> Volume:</div>,
-                right: ({sparkline, name}) => <div>{formatter.format(sparkline.total_volumes[sparkline.total_volumes.length -1][1])}</div>
+                left: () => <div><i className="fas fa-signal"></i> Volume:</div>,
+                right: ({sparkline, name}) =>
+                    <div>{formatter.format(sparkline.total_volumes[sparkline.total_volumes.length - 1][1])}</div>
             },
             {
-                left:() => <div><i className="fas fa-hand-holding-usd"></i> Market:</div>,
-                right:({sparkline, name}) => <div>{formatter.format(sparkline.market_caps[sparkline.market_caps.length -1 ][1])}</div>
+                left: () => <div><i className="fas fa-hand-holding-usd"></i> Market:</div>,
+                right: ({sparkline, name}) =>
+                    <div>{formatter.format(sparkline.market_caps[sparkline.market_caps.length - 1][1])}</div>
             },
             {
                 left: () => <div><i className="fas fa-exchange-alt"></i> ROI:</div>,
-                right :() => <div>6.60%</div>
+                right: () => <div>6.60%</div>
             },
             {
-                left: ()=> <div><i className="fas fa-sticky-note"></i> Nodes:</div>,
-                right : () => <div>2,391</div>
+                left: () => <div><i className="fas fa-sticky-note"></i> Nodes:</div>,
+                right: () => <div>2,391</div>
             },
             {
-                left: () =><div><i className="fas fa-check"></i> Collatetal:</div>,
-                right : ({sparkline, name}) => <div>1,000 {name.toUpperCase()}</div>
+                left: () => <div><i className="fas fa-check"></i> Collatetal:</div>,
+                right: ({sparkline, name}) => <div>1,000 {name.toUpperCase()}</div>
             },
             {
                 left: () => <div><i className="fas fa-check"></i> MN Worth</div>,
-                right : ({sparkline, name}) => <div>........</div>
+                right: ({sparkline, name}) => <div>........</div>
             },
 
+        ]
+        let columns =[
+            {
+                label :'Transaction ID',
+                renderCell :(item ) => <a href={`/block/${item.blockHeight}`} className='cell'>{item.txId}</a>
+            },
+            {
+                label :'Total',
+                renderCell:(item) =><div className="cell">{item.vout?item.vout.reduce((u,v) => (u*10+v.value*10)/10 ,0 ) :0}</div>,
+                classNames :'right'
+            },
+            {
+                label :'Time',
+                renderCell :(item ) => <div className="cell">{ moment(new Date(item.createdAt)).format('MM/DD/YYYY, HH:mm:ss')}</div>,
+                classNames :'right'
+            }
         ]
         return (
             <AppLayout
@@ -107,7 +128,7 @@ export class CoinPage extends React.Component {
                                                      alt={coin.name}/>
                                             </div>
                                             <h2 className='price text-center'>
-                                                {formatter.format(coin.tickers[4].last)}
+                                                {formatter.format(coin.tickers[1].last)}
                                             </h2>
                                             <div className='name text-center'>
                                                 {coin.name}
@@ -118,20 +139,20 @@ export class CoinPage extends React.Component {
                                                 <h5>Overview:</h5>
 
                                                 <div className='flex-column'>
-                                                        {
-                                                            sparkline && overview.map((o,i)=>(
-                                                                <div key={i} className='ov-row'>
-                                                                    <div className='on-left'>
-                                                                        {o.left()}
-                                                                    </div>
-                                                                    <div className='on-right'>
-                                                                        {o.right({sparkline ,name: coin.name})}
-                                                                    </div>
+                                                    {
+                                                        sparkline && overview.map((o, i) => (
+                                                            <div key={i} className='ov-row'>
+                                                                <div className='on-left'>
+                                                                    {o.left()}
                                                                 </div>
-                                                            ))
-                                                        }
-                                                    </div>
+                                                                <div className='on-right'>
+                                                                    {o.right({sparkline, name: coin.name})}
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    }
                                                 </div>
+                                            </div>
 
 
                                         </div>
@@ -149,8 +170,8 @@ export class CoinPage extends React.Component {
                                                     placeholder='Search transactions, blocks, addresses, ENS...'
                                                     value={searchKey}
                                                     onChange={(e) => {
-                                                        let val = e.target.value ;
-                                                        this.setState({searchKey: val })
+                                                        let val = e.target.value;
+                                                        this.setState({searchKey: val})
                                                     }}
                                                     className='txs-input' type="text"
                                                 />
@@ -173,9 +194,20 @@ export class CoinPage extends React.Component {
                                                             setNames={[this.id]}
                                                         />
                                                     </Fragment> :
-                                                    <BlockInfo
-                                                        blockInfo={blockInfo}
-                                                    />
+                                                    <Fragment>
+                                                        <BlockInfo
+                                                            blockInfo={blockInfo}
+                                                            props={{...this.props}}
+                                                        />
+                                                        <div className='txs-list'>
+                                                            <PaginationTable
+                                                                perPage={10}
+                                                                colums={columns}
+                                                                list={blockInfo.txs}
+                                                            />
+                                                        </div>
+                                                    </Fragment>
+
                                             }
 
                                         </Fragment>
@@ -196,58 +228,58 @@ export class CoinPage extends React.Component {
 
 
 const ExternalsLink = (props) => {
-    var links=[
+    var links = [
         {
-            label :()=> <a className='site-link' href='#'><i className="fas fa-home"></i> Website</a>,
+            label: () => <a className='site-link' href='#'><i className="fas fa-home"></i> Website</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'><i className="fab fa-bitcoin"></i> Bitcointalk ANN</a>,
+            label: () => <a className='site-link' href='#'><i className="fab fa-bitcoin"></i> Bitcointalk ANN</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'><i className="fab fa-github-square"></i> Github</a>,
+            label: () => <a className='site-link' href='#'><i className="fab fa-github-square"></i> Github</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'><i className="fab fa-discord"></i> Discord</a>,
+            label: () => <a className='site-link' href='#'><i className="fab fa-discord"></i> Discord</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'><i className="fab fa-twitter"></i> Twitter</a>,
+            label: () => <a className='site-link' href='#'><i className="fab fa-twitter"></i> Twitter</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'><i className="fab fa-searchengin"></i> Explorer 1</a>,
+            label: () => <a className='site-link' href='#'><i className="fab fa-searchengin"></i> Explorer 1</a>,
         }
     ]
-    var markets=[
+    var markets = [
         {
-            label :()=> <a className='site-link' href='#'>Crypto-Bride</a>,
+            label: () => <a className='site-link' href='#'>Crypto-Bride</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'>STEK</a>,
+            label: () => <a className='site-link' href='#'>STEK</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'>Bittrex</a>,
+            label: () => <a className='site-link' href='#'>Bittrex</a>,
         },
         {
-            label :()=> <a className='site-link' href='#'>Binance</a>,
+            label: () => <a className='site-link' href='#'>Binance</a>,
         }
     ]
-    return(
+    return (
         <div className='externals-link flex-row'>
             <div className='left-content'>
                 <h5>Links</h5>
-                <div style={{justifyContent:'start'}} className='flex-column'>
+                <div style={{justifyContent: 'start'}} className='flex-column'>
                     {
-                        links.map((o,i) =>
-                            (<div style={{textAlign :'left'}}  key={i}>{o.label()}</div>)
+                        links.map((o, i) =>
+                            (<div style={{textAlign: 'left'}} key={i}>{o.label()}</div>)
                         )
                     }
                 </div>
             </div>
             <div className='right-content'>
                 <h5>Markets</h5>
-                <div style={{justifyContent:'start'}} className='flex-column'>
+                <div style={{justifyContent: 'start'}} className='flex-column'>
                     {
-                        markets.map((o,i) =>
-                            (<div style={{textAlign :'left'}} key={i}>{o.label()}</div>)
+                        markets.map((o, i) =>
+                            (<div style={{textAlign: 'left'}} key={i}>{o.label()}</div>)
                         )
                     }
                 </div>
@@ -379,50 +411,35 @@ var MasterNodeStats = (props) => {
     )
 }
 
-const BlockInfo = (props) => {
-    const {blockInfo} = props;
-    let columns =[
-        {
-            label :'Transaction ID',
-            renderCell :(item ) => <a className='cell'>{item.txId}</a>
-        },
-        {
-            label :'Total',
-            renderCell:(item) =><div className="cell">{item.vout?item.vout.reduce((u,v) => (u*10+v.value*10)/10 ,0 ) :0}</div>,
-            classNames :'right'
-        },
-        {
-            label :'Time',
-            renderCell :(item ) => <div className="cell">{ moment(new Date(item.createdAt)).format('MM/DD/YYYY, HH:mm:ss')}</div>,
-            classNames :'right'
-        }
-    ]
-    return (
-        <div className='block-info'>
-            <h2>Block Infomation</h2>
-            <div className='info'>
-                Hash: {blockInfo.block.hash} <br/>
-                Previous Block: {blockInfo.block.prev} <br/>
-                Next Block: {blockInfo.block.nextblockhash} <br/>
-                Height: {blockInfo.block.height} <br/>
-                Version: {blockInfo.block.ver} <br/>
-                Transaction Merkle Root: {blockInfo.block.merkle} <br/>
-                Difficulty: {blockInfo.block.diff} (Bits {blockInfo.block.bits}) <br/>
-                Cumulative Difficulty: 23 271 074 323 395.176 <br/>
-                Nonce: {blockInfo.block.nonce} <br/>
-                Size : {blockInfo.block.size} <br/>
-                Average Coin Age: 506.946 days <br/>
-                Coin-days Destroyed: 926.73755404 <br/>
-                Cumulative Coin-days Destroyed: 65.1329% <br/>
-            </div>
-            <h2 className='block-txs-label'>Block's Transactions</h2>
-            <div className='txs-list'>
-                <PaginationTable
-                    perPage={10}
-                    colums={columns}
-                    list={blockInfo.txs}
-                />
-            </div>
-        </div>
-    );
-}
+// const BlockInfo = (props) => {
+//     const {blockInfo} = props;
+//
+//     return (
+//         <div className='block-info'>
+//             <h2>Block Infomation</h2>
+//             <div className='info'>
+//                 Hash: {blockInfo.block.hash} <br/>
+//                 Previous Block: {blockInfo.block.prev} <br/>
+//                 Next Block: {blockInfo.block.nextblockhash} <br/>
+//                 Height: {blockInfo.block.height} <br/>
+//                 Version: {blockInfo.block.ver} <br/>
+//                 Transaction Merkle Root: {blockInfo.block.merkle} <br/>
+//                 Difficulty: {blockInfo.block.diff} (Bits {blockInfo.block.bits}) <br/>
+//                 Cumulative Difficulty: 23 271 074 323 395.176 <br/>
+//                 Nonce: {blockInfo.block.nonce} <br/>
+//                 Size : {blockInfo.block.size} <br/>
+//                 Average Coin Age: 506.946 days <br/>
+//                 Coin-days Destroyed: 926.73755404 <br/>
+//                 Cumulative Coin-days Destroyed: 65.1329% <br/>
+//             </div>
+//             <h2 className='block-txs-label'>Block's Transactions</h2>
+//             <div className='txs-list'>
+//                 <PaginationTable
+//                     perPage={10}
+//                     colums={columns}
+//                     list={blockInfo.txs}
+//                 />
+//             </div>
+//         </div>
+//     );
+// }

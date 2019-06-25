@@ -1,14 +1,22 @@
 import React from "react";
 import {AppLayout} from "../component/app-layout/app-layout";
-import {PaginationTable} from "../component/pagination-table/pagination-table";
+import {BlockInfo} from "./block-info/block-info";
+import {explorerApi} from "../../api/explorer-api/explorer-api";
+import {TransactionsList} from "./transactions-list/transactions-list";
 
 export class BlockPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            blockInfo: null
         };
+        explorerApi.getBlock('award',props.match.params.id).then(data =>{
+            console.log(data);
+            this.setState({ blockInfo : data})
+        })
     };
     render(){
+        const {blockInfo} =this.state;
         let list=[
             {
                 a :'eaba575c80...',
@@ -62,34 +70,23 @@ export class BlockPage extends React.Component{
         return(
             <AppLayout
                 props={{...this.props}}
-                mainChild={()=>
-                    <div className='block-page'>
-                        <pre>
-                            Hash: 0000000000000017b9bfea30c15feaeb34d835e70691b944cf0014c72ce46407 <br/>
-                            Previous Block: 000000000000001d6955ea76f2a62783e88ef83fb1c9a1ea6c1aeef62f5b51aa <br/>
-                            Next Block: 0000000000000011a597707d164eae6de6812e3c31b158ebc424736cdb267669 <br/>
-                            Height: 1075383 <br/>
-                            Version: 536870928 <br/>
-                            Transaction Merkle Root: cdc0e98e924330371bc15ae2ef2614a869e0c18103e6cdff956cbbe63be6edb2 <br/>
-                            Time: 1558683850 (2019-05-24 09:44:10) <br/>
-                            Difficulty: 125 467 414.000 (Bits: 19223b53) <br/>
-                            Cumulative Difficulty: 23 271 074 323 395.176 <br/>
-                            Nonce: 2601186954 <br/>
-                            Transactions: 21 <br/>
-                            Value out: 1742.80784041 <br/>
-                            Transaction Fees: 0.00044665 <br/>
-                            Average Coin Age: 506.946 days <br/>
-                            Coin-days Destroyed: 926.73755404 <br/>
-                            Cumulative Coin-days Destroyed: 65.1329% <br/>
-                        </pre>
+                mainChild={()=>{
+                    if(!blockInfo) return null ;
+                    return(
+                        <div className='block-page'>
+                            <h3>Block Infomation</h3>
+                            <BlockInfo
+                                blockInfo={blockInfo}
+                            />
 
-                        <PaginationTable
-                            perPage={20}
-                            colums={columns}
-                            list={[...Array(20)].map(o => list[0])}
-                        />
+                            <TransactionsList
+                                txs={blockInfo.txs}
+                            />
 
-                    </div>
+                        </div>
+                    )
+                }
+
                 }
             />
         );

@@ -1,0 +1,47 @@
+.transactions-list{
+    margin-top 50px;
+    .transaction-info{
+        box-shadow 0 5px 40px rgba(0,0,0,0.2);
+        border 1px solid #e3e3e3;
+        border-radius 5px;
+        //padding 10px 20px ;
+        margin-bottom 20px;
+        .tran-id{
+            color: #5e72e4 ;
+            cursor pointer;
+            padding 10px 20px;
+            border-bottom 1px solid #e3e3e3;
+            word-wrap: break-word;
+            overflow auto;
+        }
+        .trade-info{
+            padding 10px 20px;
+            .label{
+                text-decoration underline;
+                font:bold ;
+            }
+            .tran-in , .tran-out{
+                width 50%;
+                .address{
+                    padding-left 50px;
+                    color: #5e72e4 ;
+                    cursor pointer;
+                }
+                .vout{
+                    justify-content space-between;
+                }
+            }
+        }
+    }
+    @media (max-width: 900px){
+        .trade-info{
+            flex-direction column !important;
+            .tran-in , .tran-out {
+                width 100% !important;
+                .address{
+                    padding-left 10px !important;
+                }
+            }
+        }
+    }
+}
