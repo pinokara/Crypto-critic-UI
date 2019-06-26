@@ -1,20 +1,23 @@
 import React from "react";
+import {Pagination} from "../../component/pagination-table/pagination/pagination";
 
 export class TransactionsList extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            page :1
         };
     };
     render(){
-        const {txs,props} =this.props ;
+        const {page} =this.state;
+        const {txs,props,perPage} =this.props ;
         return(
             <div className='transactions-list'>
                 <h3>
                     Transactions List:
                 </h3>
                 {
-                    txs && txs.map((o,i)=>(
+                    txs && txs.slice((page-1)*10, page*10).map((o,i)=>(
                         <TransactionInfo
                             tx={o}
                             key={i}
@@ -22,6 +25,16 @@ export class TransactionsList extends React.Component{
                         />
                         )
                     )
+                }
+                {
+                     txs && txs.length==0 ? (<div style={{"textAlign" :"left"}}>No result</div>) :
+                         txs.length > perPage ?
+                        <Pagination
+                            total={txs.length}
+                            pageNum={this.state.page}
+                            perPage={10}
+                            onChangePage={(page)=> this.setState({page: page})}
+                        /> : null
                 }
             </div>
         );
@@ -38,8 +51,12 @@ const TransactionInfo =({tx,props})=>(
                 <span className='label'>Address In(s):</span>
                 {tx.vin.length >0 && tx.vin.map((o,i)=>{
                     return(
-                        <div className='address' key={i}>
-                            {o.coinbase ? "Coinbase" : o.relatedVout.address}
+                        <div className='address' key={i}
+                             // onClick={()=> o.relatedVout && props.history.push(`/address/${o.relatedVout.address}`)}
+                        >
+                            <a href={`${o.relatedVout ? `/address/${o.relatedVout.address}` :'#'}  `}>
+                                {o.coinbase ? "Coinbase" : o.relatedVout.address}
+                            </a>
                         </div>
                     )
                 })}
@@ -50,9 +67,12 @@ const TransactionInfo =({tx,props})=>(
                     return(
                         <div className='vout flex-row' key={i}>
                             <div className='address'
-                                 onClick={()=> props.history.push(`/address/${o.address}`)}
+                                 // onClick={()=> props.history.push(`/address/${o.address}`)}
                             >
-                                {o.address}
+                                <a href={`/address/${o.address}`}>
+                                    {o.address}
+                                </a>
+
                             </div>
                             <div className='value'>
                                 {o.value}

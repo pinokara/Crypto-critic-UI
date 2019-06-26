@@ -28,8 +28,9 @@ export class AddressWallet extends React.Component{
                             <h3>Address Infomation:</h3>
                             <div className='text'>{this.addressId}</div>
                             <TransactionsList
-                                txs={addressInfo.txs.slice(0,29)}
+                                txs={addressInfo.txs}
                                 props={{...this.props}}
+                                perPage={10}
                             />
                         </div>
                     )

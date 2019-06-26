@@ -238,7 +238,7 @@ export class HomePage extends React.Component {
                                 list={coinsList}
                                 displayItemsAs={(val)=> (
                                     <div
-                                        onClick={()=> this.props.history.push(`/coin/${val.name.toLowerCase()}`)}
+                                        onClick={()=> this.props.history.push(`/coin/${val.id}`)}
                                         className='flex-row'>
                                         <img style={{marginRight:5 }} height='30px' src={`/coins/${val.image}`} alt=""/>
                                         <span>{val.name}</span>
