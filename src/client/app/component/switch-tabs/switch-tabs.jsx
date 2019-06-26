@@ -1,9 +1,6 @@
 import React from "react";
 import classnames from 'classnames'
-import {
-    CSSTransition,
-    TransitionGroup,
-} from 'react-transition-group';
+
 
 export class SwitchTabs extends React.Component {
     constructor(props) {
@@ -14,7 +11,7 @@ export class SwitchTabs extends React.Component {
     };
 
     render() {
-        const {tabs = null, defaultTab = 1, extComp =null} = this.props;
+        const {tabs = null, defaultTab = 1, extComp = null} = this.props;
         const {tab} = this.state;
         return (
             <div className='switch-tabs'>

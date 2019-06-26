@@ -77,10 +77,13 @@ export class BlockPage extends React.Component{
                             <h3>Block Infomation</h3>
                             <BlockInfo
                                 blockInfo={blockInfo}
+                                props={{...this.props}}
+
                             />
 
                             <TransactionsList
                                 txs={blockInfo.txs}
+                                props={{...this.props}}
                             />
 
                         </div>

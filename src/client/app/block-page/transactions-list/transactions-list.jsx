@@ -7,7 +7,7 @@ export class TransactionsList extends React.Component{
         };
     };
     render(){
-        const {txs} =this.props ;
+        const {txs,props} =this.props ;
         return(
             <div className='transactions-list'>
                 <h3>
@@ -18,6 +18,7 @@ export class TransactionsList extends React.Component{
                         <TransactionInfo
                             tx={o}
                             key={i}
+                            props={{...props}}
                         />
                         )
                     )
@@ -27,7 +28,7 @@ export class TransactionsList extends React.Component{
     }
 }
 
-const TransactionInfo =({tx})=>(
+const TransactionInfo =({tx,props})=>(
     <div className='transaction-info'>
         <div className='tran-id'>
             {tx.txId}
@@ -48,7 +49,9 @@ const TransactionInfo =({tx})=>(
                 {tx.vout.length >0 && tx.vout.map((o,i) =>{
                     return(
                         <div className='vout flex-row' key={i}>
-                            <div className='address' >
+                            <div className='address'
+                                 onClick={()=> props.history.push(`/address/${o.address}`)}
+                            >
                                 {o.address}
                             </div>
                             <div className='value'>

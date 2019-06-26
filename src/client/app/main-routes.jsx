@@ -9,6 +9,7 @@ import {themeServices} from "./services/theme-info";
 import classnames from 'classnames'
 import {ExplorerPage} from "./explorer-page/explorer-page";
 import {BlockPage} from "./block-page/block-page";
+import {AddressWallet} from "./address-wallet/address-wallet";
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
         constructor(props, context) {
@@ -63,6 +64,7 @@ export class MainRoutes extends BaseComponent {
                         <Route  path="/coin/:id" exact component={CoinPage}/>
                         <Route  path="/explorer/:id"  component={ExplorerPage}/>
                         <Route  path="/block/:id"  component={BlockPage}/>
+                        <Route  path="/address/:id" exact component={AddressWallet} />
 
                         <Route exact render={()=><Redirect to="/" />}/>
 

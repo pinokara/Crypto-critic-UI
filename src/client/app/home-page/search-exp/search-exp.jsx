@@ -31,15 +31,18 @@ export class SearchExp extends React.Component{
                 ref={txs =>  this.txs = txs }
                 className='txs-search'>
                 <i className="fas fa-search"></i>
-                <div className='close-cover'>
-                    <i className="far fa-times-circle"
-                        onClick={()=>{
-                            setTimeout(()=>{
-                                this.setState({value :''})
-                            },100)
-                        }}
-                    ></i>
-                </div>
+                {value.length>0 &&(
+                    <div className='close-cover'>
+                        <i className="far fa-times-circle"
+                           onClick={()=>{
+                               setTimeout(()=>{
+                                   this.setState({value :''})
+                               },100)
+                           }}
+                        ></i>
+                    </div>
+                )}
+
                 <input
                     placeholder='Search all assets...'
                     value={value}

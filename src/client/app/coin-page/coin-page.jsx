@@ -128,7 +128,7 @@ export class CoinPage extends React.Component {
                                                      alt={coin.name}/>
                                             </div>
                                             <h2 className='price text-center'>
-                                                {formatter.format(coin.tickers[1].last)}
+                                                {formatter.format(coin.market_data.current_price.usd)}
                                             </h2>
                                             <div className='name text-center'>
                                                 {coin.name}

@@ -54,6 +54,7 @@ export class HomePage extends React.Component {
 
     handleVote(id = null) {
         const {voting, votes} = this.state;
+        if(voting) return ;
         this.setState({voting: true})
         console.log(id)
         voteApi.voteCoin(id).then(data => {
@@ -68,7 +69,9 @@ export class HomePage extends React.Component {
                         newVotes[id]= data.stat
                     }
                 }
-                this.setState({ votes : newVotes , voting:false})
+                setTimeout(()=>{
+                    this.setState({ votes : newVotes , voting:false})
+                },100)
             }
             else this.setState({voting: false})
         })
@@ -111,11 +114,6 @@ export class HomePage extends React.Component {
                 ,
                 classNames: 'left'
             },
-            {
-                label: languages[country.code].coins_table[1],
-                renderCell: (item) => <div className='cell price'>{formatter.format(item.current_price)}</div>,
-                classNames: 'right'
-            },
             // {
             //     label: languages[country.code].coins_table[2],
             //     renderCell: (item) => <div className='cell percent'>
@@ -139,6 +137,11 @@ export class HomePage extends React.Component {
                 {item.price_change_percentage_7d_in_currency ? item.price_change_percentage_7d_in_currency.toFixed(1) : 'NAN'}%</span>
                 </div>,
                 classNames: 'mid'
+            },
+            {
+                label: languages[country.code].coins_table[1],
+                renderCell: (item) => <div className='cell price'>{formatter.format(item.current_price)}</div>,
+                classNames: 'right'
             },
             {
                 label: languages[country.code].coins_table[5],
