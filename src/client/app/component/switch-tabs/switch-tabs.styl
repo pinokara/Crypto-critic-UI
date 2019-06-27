@@ -17,4 +17,31 @@
     .contain{
         overflow auto;
     }
+    .fade-enter{
+        transform translate(200% , 0 );
+    }
+
+    .fade-enter.fade-enter-active{
+        transform translate(0 , 0 );
+        //transition opacity 1s ease-in-out ;
+        transition transform 0.5s ease-in-out;
+
+    }
+    .fade-leave{
+        transform translate(0 , 0 );
+    }
+    .fade-leave.fade-leave-active{
+        transform translate(200% , 0 );
+        transition transform 0.5s ease-in-out;
+    }
+
+    //@keyframes fadedIn{
+    //    from{
+    //        opacity: 0 ;
+    //    }
+    //    to{
+    //        opacity: 1 ;
+    //
+    //    }
+    //}
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import classnames from 'classnames'
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 
 export class SwitchTabs extends React.Component {
@@ -39,11 +40,24 @@ export class SwitchTabs extends React.Component {
                     )
                 }
 
-                <div className='contain'>
-                    {
-                        tabs[tab].renComp()
-                    }
-                </div>
+                <ReactCSSTransitionGroup
+                    transitionName="fade"
+                    transitionAppear={true}
+                    transitionAppearTimeout={300}
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}>
+                    <div key={tab}
+                         className='contain'>
+
+
+                        {
+                            tabs[tab].renComp()
+                        }
+
+
+                    </div>
+                </ReactCSSTransitionGroup>
+
 
             </div>
         );
