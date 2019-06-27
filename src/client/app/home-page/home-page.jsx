@@ -13,7 +13,14 @@ import {SwitchTabs} from "../component/switch-tabs/switch-tabs";
 import {SelectOption} from "../common/select-option/select-option";
 import {coinsList} from "../../../assets/cryto-data/coins-list";
 import {SearchExp} from "./search-exp/search-exp";
-
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -254,21 +261,55 @@ export class HomePage extends React.Component {
 }
 
 
-class InfoCard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    };
+// class InfoCard extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {};
+//     };
 
-    render() {
-        const {label, name, price, volume} = this.props;
-        return (
-            <div className='info-card text-center flex-column'>
-                <h3 className='label'>{label}</h3>
-                <div className='name'>{name}</div>
-                <div className='volume'>{formatter.format(volume)}</div>
-                <h4 className='price'>{formatter.format(price)}</h4>
-            </div>
-        );
-    }
+//     render() {
+//         const {label, name, price, volume, classes} = this.props;
+//         return (
+//             <Card className={classes.card}>
+//                 <CardActionArea>   
+//                     <div className='info-card text-center flex-column'>
+//                         <h3 className='label'>{label}</h3>
+//                         <div className='name'>{name}</div>
+//                         <div className='volume'>{formatter.format(volume)}</div>
+//                         <h4 className='price'>{formatter.format(price)}</h4>
+//                     </div>
+//                 </CardActionArea>
+//             </Card>
+//         );
+//     }
+// }
+
+
+const useStyles = makeStyles({
+  card: {
+    color: '#22222',
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
+
+export default function InfoCard(props) {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.card} className='info-card text-center flex-column'>
+      {/* <CardActionArea> */}
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {props.label}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.price}
+          </Typography>
+        </CardContent>
+      {/* </CardActionArea> */}
+    </Card>
+  );
 }
