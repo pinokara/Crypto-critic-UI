@@ -3,20 +3,21 @@ import {themeServices} from "../../../services/theme-info";
 import {SelectCountry} from "./select-country/select-country";
 import {Link} from "react-router-dom";
 import classnames from 'classnames'
-import { withStyles } from '@material-ui/styles';
+import {withStyles} from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import MenuBar from './menu-bar';
+import {userServices} from "../../../services/user-info";
 
 const AntTabs = withStyles({
     root: {
-      borderBottom: '1px solid #e8e8e8',
+        borderBottom: '1px solid #e8e8e8',
     },
     indicator: {
-      backgroundColor: '#1890ff',
+        backgroundColor: '#1890ff',
     },
-  })(Tabs);
+})(Tabs);
 const AntTab = withStyles({
     root: {
         textTransform: 'none',
@@ -25,30 +26,31 @@ const AntTab = withStyles({
         // fontWeight: theme.typography.fontWeightRegular,
         // marginRight: theme.spacing(4),
         fontFamily: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          '"Helvetica Neue"',
-          'Arial',
-          'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
         ].join(','),
         '&:hover': {
-          color: '#40a9ff',
-          opacity: 1,
+            color: '#40a9ff',
+            opacity: 1,
         },
         '&$selected': {
-          color: '#1890ff',
-        //   fontWeight: theme.typography.fontWeightMedium,
+            color: '#1890ff',
+            //   fontWeight: theme.typography.fontWeightMedium,
         },
         '&:focus': {
-          color: '#40a9ff',
+            color: '#40a9ff',
         },
-      },
-  })(Tab);  
+    },
+})(Tab);
+
 export class AppHeader2 extends React.Component {
     constructor(props) {
         super(props);
@@ -56,19 +58,25 @@ export class AppHeader2 extends React.Component {
             value: 0
         };
     };
+
     handleChange(event, newValue) {
         this.setState({
             value: newValue
         });
-      }
+    }
+
     render() {
+        let user = userServices.getUser();
+        console.log(user)
         let headItems = [
-            // {
-            //     label:'Login',
-            // },
-            // {
-            //     label:'Register'
-            // },
+            {
+                label: null,
+                comp: !user ? <Link to='/login'>Login</Link> : user.username,
+            },
+            {
+                label: null,
+                comp: <Link to="/register">Register</Link>
+            },
             {
                 label: null,
                 comp: <SelectCountry/>
@@ -97,22 +105,25 @@ export class AppHeader2 extends React.Component {
                 <div className='app-header-2 child-cover flex-column'>
                     <span className='head-left flex-row'>
                         <span className='head-item'>
-                            <b>{"Masternode Projects :"}</b> <span className='text'>{"100   "} <i className="fas fa-circle fa-xs"></i></span>
+                            <b>{"Masternode Projects :"}</b> <span className='text'>{"100   "} <i
+                            className="fas fa-circle fa-xs"></i></span>
 
-                            <b>{"   Market Cap : "}</b><span className='text'>{"$279.000.000.000   "}<i className="fas fa-circle fa-xs"></i></span>
+                            <b>{"   Market Cap : "}</b><span className='text'>{"$279.000.000.000   "}<i
+                            className="fas fa-circle fa-xs"></i></span>
                         
-                            <b>{"   24h Volume : "}</b> <span className='text'>{"$279.000.000.000   "}<i className="fas fa-circle fa-xs"></i></span>
+                            <b>{"   24h Volume : "}</b> <span className='text'>{"$279.000.000.000   "}<i
+                            className="fas fa-circle fa-xs"></i></span>
                         
                             <b>{"   Dash Dominance : "}</b><span className='text'>55.3%</span>
                         </span>
-                    {/* </span>
+                        {/* </span>
                     <span className='head-right flex-row'> */}
                         <span className=" head-right flex-row head-item pointed"
-                             onClick={() => {
+                              onClick={() => {
 
-                                 themeServices.setTheme({dark: theme && theme.dark == true ? false : true})
-                             }}
-                            >
+                                  themeServices.setTheme({dark: theme && theme.dark == true ? false : true})
+                              }}
+                        >
                             {
                                 theme && theme.dark ? <i
                                     className="fas fa-lightbulb"></i> : <i className="fas fa-moon"></i>
@@ -139,16 +150,18 @@ export class AppHeader2 extends React.Component {
                             cryptocritic
                         </div>
                     </a>
+                    <div>
+                        {
+                            routes.map((o, i) => {
+                                return (
+                                    <Link key={i} to={o.to} className={classnames('drr', {'act': i == 0})}>
+                                        {o.label}
+                                    </Link>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-                <div className='page-direct child-cover flex-column' style={{textAlign: "center"}} >
-                <AntTabs value={this.state.value} onChange={this.handleChange}>
-                    {
-                        routes.map((o, i)=>{
-                            return <Link key={i} to={o.to}><AntTab label={o.label} value={i}></AntTab></Link>
-                        })
-                    }
-                </AntTabs>
-                </div>    
             </div>
 
         );

@@ -27,6 +27,13 @@ export let security = {
         })
 
     },
+    register: (data)=>{
+        return new Promise((req,rej) =>{
+            userApi.register(data).then((res) =>{
+
+            })
+        })
+    },
     logout: () => {
         userServices.setInfo(null);
         localStorage.removeItem("token");

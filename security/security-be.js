@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 const UserDao = require("../dao/user-dao");
 
-let createSecurityToken = (userData) => {
-
-    return jwt.sign(userData.toJSON(), /* jwtSecret */ 'idlehero53i5030543958', {
-        expiresIn: "5 days"
+let createSecurityToken = (userData, exp='5 days') => {
+    return jwt.sign(userData, /* jwtSecret */ 'idlehero53i5030543958', {
+        expiresIn: exp
     });
 };
 
@@ -46,7 +45,7 @@ module.exports = {
     },
     authorDetails: (req, res, next) => {
         decode(req).then((decodedAuth) => {
-                UserDao.findOne({_id: decodedAuth._id}, {"password": 0}, (err, user) => {
+                UserDao.findOne({_id: decodedAuth._id}, {"_id":0,"password": 0}, (err, user) => {
                     req.user = user;
                     next();
                 })
@@ -71,6 +70,7 @@ module.exports = {
         )
     },
     createSecurityToken,
+    verifyToken
 };
 
 

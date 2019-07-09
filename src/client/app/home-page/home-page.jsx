@@ -62,26 +62,28 @@ export class HomePage extends React.Component {
     handleVote(id = null) {
         const {voting, votes} = this.state;
         if(voting) return ;
-        this.setState({voting: true})
-        console.log(id)
-        voteApi.voteCoin(id).then(data => {
-            console.log(data);
-            let newVotes={};
-            if (!data.error) {
-                for(let i in votes){
-                    newVotes[i] = votes[i] ;
-                    if(i == data.stat.coinId){
-                        newVotes[i].count = data.stat.count;
-                    }else{
-                        newVotes[id]= data.stat
+        else{
+            this.setState({voting: true})
+            console.log(id)
+            voteApi.voteCoin(id).then(data => {
+                console.log(data);
+                let newVotes={};
+                if (!data.error) {
+                    for(let i in votes){
+                        newVotes[i] = votes[i] ;
+                        if(i == data.stat.coinId){
+                            newVotes[i].count = data.stat.count;
+                        }else{
+                            newVotes[id]= data.stat
+                        }
                     }
+                    setTimeout(()=>{
+                        this.setState({ votes : newVotes , voting:false})
+                    },100)
                 }
-                setTimeout(()=>{
-                    this.setState({ votes : newVotes , voting:false})
-                },100)
-            }
-            else this.setState({voting: false})
-        })
+                else this.setState({voting: false})
+            })
+        }
     }
 
     convertColumns = (country = {}, votes = {}, voting = false) => {
@@ -93,7 +95,14 @@ export class HomePage extends React.Component {
                         className='cell vote'
                         onClick={() => {
                             console.log(item)
-                            !voting && this.handleVote(item.id)
+                            if(voting){
+                                return ;
+                            }else{
+                                setTimeout(()=>{
+                                    this.handleVote(item.id)
+                                },1000)
+                            }
+
                         }}
                     >
                         <i className="fas fa-thumbs-up"></i>

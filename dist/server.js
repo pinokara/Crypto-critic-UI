@@ -8,34 +8,33 @@ app.use(compression())
 const path = require("path");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const storage= multer.diskStorage({
-    destination:(req, file, cb)=>{
-        cb(null,__dirname+ "/uploads/") ;
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __dirname + "/uploads/");
     },
-    filename:(req, file, cb)=>{
-        cb(null,file.originalname) ;
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
     }
 })
-const upload= multer({storage : storage})
+const upload = multer({storage: storage})
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/coin-draft", { useNewUrlParser: true });
-app.use(express.static(__dirname) );
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/coin-draft", {useNewUrlParser: true});
+app.use(express.static(__dirname));
 app.use("/api", bodyParser.json());
 let router = express.Router();
 app.use("/api", router);
-
-app.post("/api/file/upload" , upload.single('imageFile') , (req,res) =>{
-    res.json({filename: "/uploads/"+req.file.originalname})
+app.post("/api/file/upload", upload.single('imageFile'), (req, res) => {
+    res.json({filename: "/uploads/" + req.file.originalname})
 })
 require("../server-controllers/user-controller")(router)
 require("../server-controllers/vote-controller")(router)
 require("../server-controllers/crypto-controller")(router)
 require("../server-controllers/explorer-controller")(router)
 
-app.get("*",(req, res, next) => {
+
+app.get("*", (req, res, next) => {
     res.sendFile(__dirname + "/index.html");
 });
-
 
 
 var server = app.listen(process.env.PORT || 5000, function () {

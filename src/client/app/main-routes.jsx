@@ -10,6 +10,8 @@ import classnames from 'classnames'
 import {ExplorerPage} from "./explorer-page/explorer-page";
 import {BlockPage} from "./block-page/block-page";
 import {AddressWallet} from "./address-wallet/address-wallet";
+import {LoginPage} from "./login/login";
+import {RegisterPage} from "./register/register";
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
         constructor(props, context) {
@@ -40,14 +42,14 @@ export class MainRoutes extends BaseComponent {
     render() {
 
         let token =localStorage.getItem("token") ;
-        let authenRoute = (Comp) => token ? Comp : redirect("/manage/login");
-        let unAuthenRoute = (Comp) => !token ? Comp : redirect("/manage");
+        let authenRoute = (Comp) => token ? Comp : redirect("/login");
+        let unAuthenRoute = (Comp) => !token ? Comp : redirect("/");
         const requireAdmin = (comp) => {
             if (!token) {
-                return redirect("/manage/login");
+                return redirect("/login");
             }
             let user = JSON.parse(localStorage.getItem("user-info") )
-            if (user.isAdmin) {
+            if (user) {
                 return comp;
             }
             return redirect("/")
@@ -61,6 +63,8 @@ export class MainRoutes extends BaseComponent {
                 <BrowserRouter>
                     <Switch>
                         <Route  path="/" exact component={HomePage}/>
+                        <Route  path="/login" exact component={unAuthenRoute(LoginPage)}/>
+                        <Route  path="/register" exact component={unAuthenRoute(RegisterPage)}/>
                         <Route  path="/coin/:id" exact component={CoinPage}/>
                         <Route  path="/explorer/:id"  component={ExplorerPage}/>
                         <Route  path="/block/:id"  component={BlockPage}/>
