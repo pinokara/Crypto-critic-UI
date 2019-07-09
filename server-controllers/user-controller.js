@@ -20,7 +20,7 @@ module.exports = (app) => {
         }, {"password": 0}, (err, user) => {
             console.log(user)
             if (user == null) {
-                return res.status(400).send({err: true, message: "Tài khoản không tồn tại!"})
+                return res.status(200).send({err: true, message: "Tài khoản không tồn tại!"})
             } else {
                 res.send({
                     user: user,

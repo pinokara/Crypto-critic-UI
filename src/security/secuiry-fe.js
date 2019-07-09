@@ -7,7 +7,7 @@ export let security = {
             userApi.login(data).then((res) => {
                 cache.set(res.token,"token");
                 userServices.setUser(res.user);
-                resolve();
+                resolve(res);
             }, (err) => {
                 reject(err);
             })

@@ -1,6 +1,7 @@
 import React from "react";
 import {security} from "../../../security/secuiry-fe";
 import {Link} from "react-router-dom";
+import {userApi} from "../../api/user/user-api";
 
 export class LoginPage extends React.Component {
     constructor(props) {
@@ -18,16 +19,26 @@ export class LoginPage extends React.Component {
         e.preventDefault();
         e.stopPropagation();
         const {username, password} = this.state;
-        // userApi.login({username, password}).then((data) =>{
-        //     this.props.history.push("/manage")
+        // userApi.login({username :username, password:password}).then((data) =>{
+        //     console.log(data)
+        //     this.setState({submitting : false})
+        //     if(data.err){
+        //         this.setState({error :true , submitting :false })
+        //     }
+        //     else this.props.history.push(`/`)
         // },()=>{
         //     this.setState({error: true, submitting: false})
         // })
 
         security.login({username : username, password : password}).then((data) => {
             console.log(data)
-            this.props.history.push(`/`)
-        },)
+            this.setState({submitting : false})
+            if(data.err){
+                this.setState({error :true , submitting :false })
+            }else {
+                this.props.history.push(`/`)
+            }
+        })
 
     }
 
